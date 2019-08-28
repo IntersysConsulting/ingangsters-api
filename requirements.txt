@@ -1,0 +1,5 @@
+Flask == 1.1.1
+Flask-Jwt-Extended == 3.21.0
+Flask-PyMongo == 2.3.0
+Flask-Bcrypt == 0.7.1
+Jsonschema == 3.0.2
