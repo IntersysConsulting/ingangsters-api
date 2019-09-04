@@ -2,36 +2,34 @@ from flask import Flask, Blueprint, request, jsonify
 from flask_pymongo import PyMongo
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import generate_password_hash, check_password_hash
-from flask_jwt_extended import (create_access_token, create_refresh_token,
-                                jwt_required, jwt_refresh_token_required, get_jwt_identity)
+from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity)
+
 from common.db import mongo
 from common.utils import *
-from schemas.users import validate_user_login_credentials, validate_user_with_name, validate_user_patch_admin, validate_user_patch_user, validate_just_id
+from jsonschemas.users import validate_user_login, validate_user_signup, validate_user_put_data, validate_user_put_password
 from datetime import datetime
 from bson import ObjectId
 
 users = Blueprint('users', __name__)
 
 
-@users.route('/login', methods=['POST'])
-def login():
+@users.route('/user/login', methods=['POST'])
+def user_login():
     if request.method == 'POST':
-        data = request.get_json()
-        data = validate_user_login_credentials(data)
         output = defaultObject()
+        data = request.get_json()
+        data = validate_user_login(data)
         if data['ok']:
             data = data['data']
             data['email'] = data['email'].lower()
-            user_searched = mongo.db.users.find_one({'email': data['email']})
-            if (user_searched and check_password_hash(user_searched['password'], data['password'])):
-                del user_searched['password']
-                del user_searched['createdAt']
-                del user_searched['updatedAt']
-                user_searched['_id'] = str(user_searched['_id'])
-                user_searched['token'] = create_access_token(identity=user_searched)
-                user_searched['refresh'] = create_refresh_token(identity=user_searched)
+            search_user = mongo.db.users.find_one({'email': data['email']})
+            if (search_user and check_password_hash(search_user['password'], data['password'])):
+                del search_user['password']
+                search_user['_id'] = str(search_user['_id'])
+                search_user['token'] = create_access_token(identity=search_user)
+                search_user['refresh'] = create_refresh_token(identity=search_user)
                 output['status'] = True
-                output['data'] = user_searched
+                output['data'] = search_user
                 return jsonify(output), 200
             else:
                 output['message'] = 'INVALID_CREDENTIALS'
@@ -41,20 +39,20 @@ def login():
             return jsonify(output), 400
 
 
-@users.route('/signup', methods=['POST'])
-def usersSignUp():
+@users.route('/user/signup', methods=['POST'])
+def user_signup():
     if request.method == 'POST':
         output = defaultObject()
         data = request.get_json()
-        data = validate_user_with_name(data)
+        data = validate_user_signup(data)
         if data['ok']:
             data = data['data']
             data['email'] = data['email'].lower()
-            user_searched = mongo.db.users.find_one({'email': data['email']})
-            if (not user_searched):
+            find_same_email_user = mongo.db.users.find_one({'email': data['email']})
+            if (not find_same_email_user):
+                if (not data.get('phone')):
+                    data['phone'] = None
                 data['password'] = generate_password_hash(data['password']).decode('utf-8')
-                data['role'] = 'USER'
-                data['addresses'] = []
                 data['createdAt'] = datetime.timestamp(datetime.now())
                 data['updatedAt'] = datetime.timestamp(datetime.now())
                 mongo.db.users.insert_one(data)
@@ -63,36 +61,49 @@ def usersSignUp():
                 return jsonify(output), 200
             else:
                 output = defaultObject()
-                output['message'] = 'USER_ALREADY_REGISTERED'  # Conflict
+                output['message'] = 'USER_ALREADY_REGISTERED'
                 return jsonify(output), 409
         else:
             output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
             return jsonify(output), 400
 
+# GET ALL USERS
+# @users.route('/user/users', methods=['GET'])
+# @jwt_required
+# def get_users():
+#     if request.method == 'GET':
+#         output = defaultObject()
+#         current_user = get_jwt_identity()
+#         search_curent_user = mongo.db.admins.find_one({'email': current_user['email']})
+#         if (search_curent_user):
+#             for single_user in mongo.db.users.find():
+#                 single_user['_id'] = str(single_user['_id'])
+#                 single_user['createdAt'] = convertTimestampToDateTime(single_user['createdAt'])
+#                 single_user['updatedAt'] = convertTimestampToDateTime(single_user['updatedAt'])
+#                 output['status'] = True
+#                 output['data'].append(single_user)
+#             return jsonify(output), 200
+#         else:
+#             output['message'] = 'FORBIDDEN'
+#             return jsonify(output), 403
 
-@users.route('/users', methods=['GET', 'PATCH', 'DELETE'])
+
+@users.route('/user/update', methods=['PUT'])
 @jwt_required
-def usersAdmin():
-    output = defaultObject()
-    current_user = get_jwt_identity()
-    # print('Current user: ', current_user)
-    if current_user['role'] == 'ADMIN':
-        if request.method == 'GET':
-            for single_user in mongo.db.users.find():
-                single_user['_id'] = str(single_user['_id'])
-                single_user['createdAt'] = convertTimestampToDateTime(single_user['createdAt'])
-                single_user['updatedAt'] = convertTimestampToDateTime(single_user['updatedAt'])
-                output['status'] = True
-                output['data'].append(single_user)
-            return jsonify(output), 200
-        if request.method == 'PATCH':
-            data = request.get_json()
-            data = validate_user_patch_admin(data)
-            if data['ok']:
-                data = data['data']
-                data['email'] = data['email'].lower()
-                data['password'] = generate_password_hash(data['password']).decode('utf-8')
-                user_updated = mongo.db.users.update_one({'_id': ObjectId(data['_id'])}, {'$set': {'email': data['email'], 'name': data['name'], 'password': data['password'], 'role': data['role']}})
+def update_data_user():
+    if request.method == 'PUT':
+        output = defaultObject()
+        current_user = get_jwt_identity()
+        data = request.get_json()
+        data = validate_user_put_data(data)
+        if data['ok']:
+            data = data['data']
+            data['email'] = data['email'].lower()
+            if (not data.get('phone')):
+                data['phone'] = None
+            search_email_user = mongo.db.users.find_one({'email': data['email']})
+            if (not search_email_user):
+                user_updated = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {'$set': {'email': data['email'], 'name': data['name'], 'phone': data['phone']}})
 
                 if (user_updated.modified_count):
                     output['status'] = True
@@ -101,60 +112,43 @@ def usersAdmin():
                 else:
                     output['message'] = 'USER_NOT_FOUND'
                     return jsonify(output), 404
-        if request.method == 'DELETE':
-            data = request.get_json()
-            data = validate_just_id(data)
-            if data['ok']:
-                data = data['data']
-                user_deleted = mongo.db.users.delete_one({'_id': ObjectId(data['_id'])})
-                if (user_deleted.deleted_count):
-                    output['status'] = True
-                    output['message'] = 'DELETED_CORRECTLY'
-                    return jsonify(output), 200
-                else:
-                    output['message'] = 'USER_NOT_FOUND'
-                    return jsonify(output), 404
-    else:
-        output['status'] = False
-        output['message'] = 'FORBIDDEN'
-        return jsonify(output), 403
-
-
-@users.route('/userupdate', methods=['PATCH'])
-@jwt_required
-def usersAll():
-    output = defaultObject()
-    current_user = get_jwt_identity()
-    if request.method == 'PATCH':
-        data = request.get_json()
-        data = validate_user_patch_user(data)
-        if data['ok']:
-            data = data['data']
-            data['email'] = data['email'].lower()
-            search_email_user = mongo.db.users.find_one({'email': data['email']})
-            if (not search_email_user):
-                if (data['newpassword1'] == data['newpassword2']):
-                    if (current_user['_id'] == data['_id']):
-                        search_this_user = mongo.db.users.find_one({'_id': ObjectId(data['_id']), 'email': data['email']})
-                        if (search_this_user and check_password_hash(search_this_user['password'], data['oldpassword'])):
-                            data['password'] = generate_password_hash(data['oldpassword']).decode('utf-8')
-                            user_updated = mongo.db.users.update_one({'_id': ObjectId(data['_id'])}, {'$set': {'email': data['email'], 'name': data['name'], 'password': data['password']}})
-                            if (user_updated.modified_count):
-                                output['status'] = True
-                                output['message'] = 'UPDATED_CORRECTLY'
-                                return jsonify(output), 200
-                            else:
-                                output['message'] = 'USER_NOT_FOUND'
-                                return jsonify(output), 404
-                        else:
-                            output['message'] = 'INCORRECT_PASSWORD'
-                            return jsonify(output), 409
-                    else:
-                        output['message'] = 'FORBIDDEN'
-                        return jsonify(output), 403
-                else:
-                    output['message'] = 'NEW_PASSWORDS_NOT_MATCH'
-                    return jsonify(output), 409
             else:
                 output['message'] = 'EMAIL_ALREADY_IN_USE'
                 return jsonify(output), 409
+        else:
+            output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
+            return jsonify(output), 400
+
+
+@users.route('/user/changepassword', methods=['PUT'])
+@jwt_required
+def update_password_user():
+    if request.method == 'PUT':
+        output = defaultObject()
+        current_user = get_jwt_identity()
+        data = request.get_json()
+        data = validate_user_put_password(data)
+        if data['ok']:
+            data = data['data']
+            search_user_to_change = mongo.db.users.find_one({'_id': ObjectId(current_user['_id'])})
+            if (search_user_to_change and check_password_hash(search_user_to_change['password'], data['oldpassword'])):
+                if (data['newpassword1'] == data['newpassword2']):
+                    data['newpassword1'] = generate_password_hash(data['newpassword1']).decode('utf-8')
+                    update_user = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {'$set': {'password': data['newpassword1']}})
+
+                    if (update_user.modified_count):
+                        output['status'] = True
+                        output['message'] = 'UPDATED_CORRECTLY'
+                        return jsonify(output), 200
+                    else:
+                        output['message'] = 'USER_NOT_FOUND'
+                        return jsonify(output), 404
+                else:
+                    output['message'] = 'PASSWORDS_NOT_MATCH'
+                    return jsonify(output), 409
+            else:
+                output['message'] = 'INCORRECT_PASSWORD'
+                return jsonify(output), 409
+        else:
+            output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
+            return jsonify(output), 400

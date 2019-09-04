@@ -14,20 +14,22 @@ import datetime
 def create_app(config_filename):
     # Creates the app.
     app = Flask(__name__)
-    app.config['MONGO_URI'] = 'mongodb://localhost:27017/ecommerce'
+    #app.config['MONGO_URI'] = 'mongodb://localhost:27017/ecommerce'
     app.config['JWT_SECRET_KEY'] = 'secret_pass'
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
     jwt = JWTManager(app)
-    #app.config['MONGO_URI'] = 'mongodb+srv://aintersys:aintersys@e-commerce-lcqki.mongodb.net/test?retryWrites=true&w=majority'
+    app.config['MONGO_URI'] = 'mongodb+srv://aintersys:aintersys@e-commerce-lcqki.mongodb.net/E-commerce?retryWrites=true&w=majority'
     #app.config['MONGO_URI'] = 'mongodb://aintersys:aintersys@e-commerce-shard-00-00-lcqki.mongodb.net:27017,e-commerce-shard-00-01-lcqki.mongodb.net:27017,e-commerce-shard-00-02-lcqki.mongodb.net:27017/test?ssl=true&replicaSet=e-commerce-shard-0&authSource=admin&retryWrites=true&w=majority'
 
     from common.db import mongo
     mongo.init_app(app)
 
-    from views.products import products
+    from views.admins import admins
     from views.users import users
-    app.register_blueprint(products)
+    from views.products import products
+    app.register_blueprint(admins)
     app.register_blueprint(users)
+    app.register_blueprint(products)
 
     @app.route('/')
     def home():

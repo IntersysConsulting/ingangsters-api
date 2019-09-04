@@ -1,7 +1,7 @@
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError, SchemaError
 
-user_schema = {
+admin_create = {
     "type": "object",
     "properties": {
         "name": {
@@ -18,7 +18,7 @@ user_schema = {
     "required": ["name", "email", "password"]
 }
 
-user_schema_login = {
+admin_login = {
     "type": "object",
     "properties": {
         "name": {
@@ -35,7 +35,7 @@ user_schema_login = {
     "required": ["email", "password"]
 }
 
-user_patch_admin = {
+admin_put_data = {
     "type": "object",
     "properties": {
         "_id": {
@@ -47,29 +47,16 @@ user_patch_admin = {
         "email": {
             "type": "string",
             "format": "email"
-        },
-        "password": {
-            "type": "string",
-        },
-        "role": {
-            "type": "string",
         }
     },
-    "required": ["_id", "name", "email", "password", "role"]
+    "required": ["_id", "name", "email"]
 }
 
-user_patch_user = {
+admin_put_password = {
     "type": "object",
     "properties": {
         "_id": {
             "type": "string",
-        },
-        "name": {
-            "type": "string",
-        },
-        "email": {
-            "type": "string",
-            "format": "email"
         },
         "oldpassword": {
             "type": "string",
@@ -81,7 +68,7 @@ user_patch_user = {
             "type": "string",
         }
     },
-    "required": ["_id", "name", "email", "oldpassword", "newpassword1", "newpassword2"]
+    "required": ["_id", "oldpassword", "newpassword1", "newpassword2"]
 }
 
 check_id = {
@@ -95,9 +82,9 @@ check_id = {
 }
 
 
-def validate_user_with_name(data):
+def validate_admin_create(data):
     try:
-        validate(data, user_schema)
+        validate(data, admin_create)
     except ValidationError as e:
         return {'ok': False, 'message': e}
     except SchemaError as e:
@@ -105,9 +92,9 @@ def validate_user_with_name(data):
     return {'ok': True, 'data': data}
 
 
-def validate_user_login_credentials(data):
+def validate_admin_login(data):
     try:
-        validate(data, user_schema_login)
+        validate(data, admin_login)
     except ValidationError as e:
         return {'ok': False, 'message': e}
     except SchemaError as e:
@@ -115,9 +102,9 @@ def validate_user_login_credentials(data):
     return {'ok': True, 'data': data}
 
 
-def validate_user_patch_admin(data):
+def validate_admin_put_data(data):
     try:
-        validate(data, user_patch_admin)
+        validate(data, admin_put_data)
     except ValidationError as e:
         return {'ok': False, 'message': e}
     except SchemaError as e:
@@ -125,9 +112,9 @@ def validate_user_patch_admin(data):
     return {'ok': True, 'data': data}
 
 
-def validate_user_patch_user(data):
+def validate_admin_put_password(data):
     try:
-        validate(data, user_patch_user)
+        validate(data, admin_put_password)
     except ValidationError as e:
         return {'ok': False, 'message': e}
     except SchemaError as e:
