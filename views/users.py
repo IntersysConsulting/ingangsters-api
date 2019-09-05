@@ -134,7 +134,7 @@ def update_password_user():
             if (search_user_to_change and check_password_hash(search_user_to_change['password'], data['oldpassword'])):
                 if (data['newpassword1'] == data['newpassword2']):
                     data['newpassword1'] = generate_password_hash(data['newpassword1']).decode('utf-8')
-                    update_user = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {'$set': {'password': data['newpassword1']}})
+                    update_user = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {'$set': {'password': data['newpassword1'], 'updatedAt': data['updatedAt']}})
 
                     if (update_user.modified_count):
                         output['status'] = True

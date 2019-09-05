@@ -105,7 +105,8 @@ def update_data_admin():
                 data['email'] = data['email'].lower()
                 search_email_user = mongo.db.users.find_one({'email': data['email']})
                 if (not search_email_user):
-                    admin_updated = mongo.db.admins.update_one({'_id': ObjectId(data['_id'])}, {'$set': {'email': data['email'], 'name': data['name']}})
+                    data['updatedAt'] = datetime.timestamp(datetime.now())
+                    admin_updated = mongo.db.admins.update_one({'_id': ObjectId(data['_id'])}, {'$set': {'email': data['email'], 'name': data['name'], 'updatedAt': data['updatedAt']}})
 
                     if (admin_updated.modified_count):
                         output['status'] = True
@@ -141,7 +142,7 @@ def update_password_admin():
                 if (search_admin_to_change and check_password_hash(search_admin_to_change['password'], data['oldpassword'])):
                     if (data['newpassword1'] == data['newpassword2']):
                         data['newpassword1'] = generate_password_hash(data['newpassword1']).decode('utf-8')
-                        update_admin = mongo.db.admins.update_one({'_id': ObjectId(data['_id'])}, {'$set': {'password': data['newpassword1']}})
+                        update_admin = mongo.db.admins.update_one({'_id': ObjectId(data['_id'])}, {'$set': {'password': data['newpassword1'], 'updatedAt': data['updatedAt']}})
 
                         if (update_admin.modified_count):
                             output['status'] = True
