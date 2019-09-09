@@ -22,11 +22,39 @@ def get_products():
         # output.append({'name': 'Martin'})
         for single_product in mongo.db.products.find():
             if (single_product['available']):
+                del single_product['description']
+                del single_product['updatedAt']
+                del single_product['createdAt']
+                del single_product['sold']
                 single_product['_id'] = str(single_product['_id'])
-                single_product['createdAt'] = convertTimestampToDateTime(single_product['createdAt'])
-                single_product['updatedAt'] = convertTimestampToDateTime(single_product['updatedAt'])
                 output['data'].append(single_product)
         return jsonify(output), 200
+
+
+@products.route('/products/single', methods=['GET'])
+def get_single_product():
+    if request.method == 'GET':
+        output = defaultObject()
+        data = request.get_json()
+        data = validate_just_id(data)
+        if (data['ok']):
+            data = data['data']
+            print(data)
+            searched_product = mongo.db.products.find_one({'_id': ObjectId(data['_id'])})
+            print(searched_product)
+            if (searched_product):
+                del searched_product['_id']
+                del searched_product['sold']
+                searched_product['createdAt'] = convertTimestampToDateTime(searched_product['createdAt'])
+                searched_product['updatedAt'] = convertTimestampToDateTime(searched_product['updatedAt'])
+                output['status'] = True
+                return jsonify(searched_product), 200
+            else:
+                output['message'] = 'PRODUCT_NOT_FOUND'
+                return jsonify(output), 404
+        else:
+            output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
+            return jsonify(output), 400
 
 
 @products.route('/products/all', methods=['GET'])
