@@ -31,6 +31,27 @@ def get_products():
         return jsonify(output), 200
 
 
+@products.route('/products/<int:total_items>/<int:page>', methods=['GET'])
+def get_products_paginated(total_items, page):
+    if request.method == 'GET':
+        output = defaultObjectDataAsAnObject()
+        output['data']['total_products'] = mongo.db.products.count_documents({'available': True})
+
+        products_array = []
+        skip = (total_items * page) - total_items
+        for single_product in mongo.db.products.find().skip(skip).limit(total_items):
+            if (single_product['available']):
+                del single_product['description']
+                del single_product['updatedAt']
+                del single_product['createdAt']
+                del single_product['sold']
+                single_product['_id'] = str(single_product['_id'])
+                products_array.append(single_product)
+
+        output['data']['products'] = products_array
+        return jsonify(output), 200
+
+
 @products.route('/products/single', methods=['GET'])
 def get_single_product():
     if request.method == 'GET':
