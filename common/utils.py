@@ -11,3 +11,8 @@ def convertTimestampToDateTime(timestamp):
 def defaultObject():
     output = '{"status":false,"message":"","data":[]}'
     return json.loads(output)
+
+
+def defaultObjectDataAsAnObject():
+    output = '{"status":false,"message":"","data":{}}'
+    return json.loads(output)
