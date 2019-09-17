@@ -52,9 +52,9 @@ def get_products_paginated(total_items, page):
         return jsonify(output), 200
 
 
-@products.route('/products/single', methods=['GET'])
+@products.route('/products/single', methods=['POST'])
 def get_single_product():
-    if request.method == 'GET':
+    if request.method == 'POST':
         output = defaultObject()
         data = request.get_json()
         data = validate_just_id(data)

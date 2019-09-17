@@ -70,6 +70,20 @@ def admin_login():
             return jsonify(output), 400
 
 
+@admins.route('/admin/check', methods=['POST'])
+@jwt_required
+def check_admin_user():
+    if request.method == 'POST':
+        # output = defaultObject()
+        current_user = get_jwt_identity()
+        search_curent_admin = mongo.db.admins.find_one({'email': current_user['email']})
+        if (search_curent_admin):
+            return jsonify({'isAdmin': True}), 200
+        else:
+            # output['message'] = 'FORBIDDEN'
+            return jsonify({'isAdmin': False}), 403
+
+
 @admins.route('/admin/users', methods=['GET'])
 @jwt_required
 def get_admins():
