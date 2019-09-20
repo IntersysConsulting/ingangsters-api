@@ -4,9 +4,13 @@ from flask_pymongo import PyMongo
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager
 import datetime
+from dotenv import load_dotenv
+from os import getenv 
 
+load_dotenv()
 
 def create_app():
+    print("BUCKET: " + getenv("AWS_BUCKET_NAME"))
     # Creates the app.
     app = Flask(__name__)
     CORS(app)

@@ -10,7 +10,7 @@ from common.utils import *
 from jsonschemas.products import validate_products_post, validate_products_put, validate_just_id
 from datetime import datetime
 from bson import ObjectId
-
+from utils.aws import S3Instance
 # Create the blueprint
 products = Blueprint('products', __name__)
 
@@ -213,3 +213,24 @@ def delete_product_real():
             output['status'] = False
             output['message'] = 'FORBIDDEN'
             return jsonify(output), 403
+
+@products.route('/products/images/upload', methods=['POST'])
+@jwt_required
+def upload_image():
+    if request.method == 'POST':
+        output = defaultObject()
+        current_user = get_jwt_identity()
+        search_current_admin = mongo.db.admins.find_one({'email': current_user['email']})
+        if (search_current_admin):
+            formData = dict(request.files)
+            image = formData.get("image")
+            uploadedURL = S3Instance().uploadImage(image)
+            output['status'] = True
+            output['message'] = 'DONE'
+            output['data'] = uploadedURL
+            return jsonify(output), 200
+        else:
+            output['status'] = False
+            output['message'] = "FORBIDDEN"
+            return jsonify(output), 403
+    # if request.method == 'GET'
