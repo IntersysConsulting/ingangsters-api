@@ -5,21 +5,21 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager
 import datetime
 from dotenv import load_dotenv
-from os import getenv 
+from os import getenv
 
 load_dotenv()
+
 
 def create_app():
     print("BUCKET: " + getenv("AWS_BUCKET_NAME"))
     # Creates the app.
     app = Flask(__name__)
     CORS(app)
-    #app.config['MONGO_URI'] = 'mongodb://localhost:27017/ecommerce'
-    app.config['JWT_SECRET_KEY'] = 'secret_pass'
+    app.config['MONGO_URI'] = getenv("MONGO_URI")
+    app.config['JWT_SECRET_KEY'] = getenv("JWT_SECRET_KEY")
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = getenv("JWT_ACCESS_TOKEN_EXPIRES")
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
     jwt = JWTManager(app)
-    app.config['MONGO_URI'] = 'mongodb+srv://aintersys:aintersys@e-commerce-lcqki.mongodb.net/E-commerce?retryWrites=true&w=majority'
-    #app.config['MONGO_URI'] = 'mongodb://aintersys:aintersys@e-commerce-shard-00-00-lcqki.mongodb.net:27017,e-commerce-shard-00-01-lcqki.mongodb.net:27017,e-commerce-shard-00-02-lcqki.mongodb.net:27017/test?ssl=true&replicaSet=e-commerce-shard-0&authSource=admin&retryWrites=true&w=majority'
 
     from common.db import mongo
     mongo.init_app(app)
