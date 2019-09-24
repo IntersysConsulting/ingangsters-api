@@ -29,10 +29,30 @@ def cart_create():
         if data['ok']:
 
             data = data['data']
-            search_user_to_change = mongo.db.cart.find_one(
+
+            # Check if cart exists
+            search_user_cart = mongo.db.cart.find_one(
                 {'user': ObjectId(current_user['_id'])})
 
-            if (search_user_to_change):
+            # Look for product
+            #product = mongo.db.products.find_one({'_id': ObjectId(data['product_id'])})
+            product = mongo.db.product.find_one(
+                {'_id': ObjectId(data['product_id'])})
+
+            # Validations
+            if(product == None):
+                output['message'] = 'PRODUCT_NOT_FOUND'
+                return jsonify(output), 404
+
+            if(data['quantity'] > product['stock']):
+                output['message'] = 'NO_ENOUGH_STOCK'
+                return jsonify(output), 404
+
+            if(data['price'] != product['price']):
+                output['message'] = 'PRICE_MISMATCH'
+                return jsonify(output), 404
+
+            if (search_user_cart):
                 # Update Cart
                 data["product_id"] = ObjectId(data['product_id'])
                 mongo.db.cart.update_one({'user': ObjectId(current_user['_id'])}, {

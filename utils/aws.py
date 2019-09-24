@@ -6,31 +6,35 @@ from io import BytesIO
 import os
 import copy
 
+
 class S3Instance:
     aws = None
+
     class _S3Instance:
         def __init__(self, bucket):
             self.bucketName = bucket
-            self.session = boto3.Session(aws_access_key_id=os.getenv("AWS_KEY_ID"), aws_secret_access_key=os.getenv("AWS_SECRET_KEY"))
+            self.session = boto3.Session(aws_access_key_id=os.getenv(
+                "AWS_KEY_ID"), aws_secret_access_key=os.getenv("AWS_SECRET_KEY"))
             self.resource = boto3.resource("s3")
             self.bucket = self.resource.Bucket(name=bucket)
-    
+
     def __init__(self):
         if not S3Instance.aws:
-            S3Instance.aws = S3Instance._S3Instance(os.getenv("AWS_BUCKET_NAME"))
-    
+            S3Instance.aws = S3Instance._S3Instance(
+                os.getenv("AWS_BUCKET_NAME"))
+
     def itemExists(self, itemName):
         for item in self.aws.bucket.objects.filter(Prefix="images/"):
             # Quitando el nombre de la carpeta y el formato
-            objectName = item.key.split("/")[1:][0].split(".")[:1][0]  
+            objectName = item.key.split("/")[1:][0].split(".")[:1][0]
             if objectName == itemName:
                 return True
         return False
 
-    def randomString(self, size = 40):
-    # tomando 52 letras [A-Za-z] y 10 numeros [0-1]. Existen 2.276015817 E+28 posibles combinaciones. Muchas
+    def randomString(self, size=40):
+        # tomando 52 letras [A-Za-z] y 10 numeros [0-1]. Existen 2.276015817 E+28 posibles combinaciones. Muchas
         return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(size))
-                        
+
     def uploadImage(self, imageObject):
         urlPrefix = f'https://{os.getenv("AWS_BUCKET_NAME")}.s3-us-west-1.amazonaws.com'
         fileExtension = imageObject.filename.split(".")[1:][0]
@@ -41,16 +45,17 @@ class S3Instance:
         # Image compression stuff
         byteStream = BytesIO(imageObject.stream.read())
         imgBig = Image.open(byteStream)
-        width,height = imgBig.size
+        width, height = imgBig.size
         if(width > height):
             factor = 200 / width
         else:
             factor = 200 / height
-        
-        imgSmall = imgBig.resize((int(width*factor), int(height*factor)), Image.ANTIALIAS)
+
+        imgSmall = imgBig.resize(
+            (int(width*factor), int(height*factor)), Image.ANTIALIAS)
         print(f'Your image is {imgBig.size[0]}x{imgBig.size[1]}')
         print(f'Your thumbnail is {imgSmall.size[0]}x{imgSmall.size[1]}')
-        
+
         imgBig.save("_"+newFileName)
         self.aws.bucket.upload_file("_"+newFileName, f'images/{newFileName}')
         os.remove("_"+newFileName)
