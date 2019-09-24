@@ -31,14 +31,13 @@ def cart_create():
             data = data['data']
 
             # Check if cart exists
-            search_user_cart = mongo.db.cart.find_one(
+            search_user_cart = mongo.db.carts.find_one(
                 {'user': ObjectId(current_user['_id'])})
 
             items = []
             for item in data['items']:
                 # Look for product
-                #product = mongo.db.products.find_one({'_id': ObjectId(data['product_id'])})
-                product = mongo.db.product.find_one(
+                product = mongo.db.products.find_one(
                     {'_id': ObjectId(item['product_id'])})
 
                 # Validations
@@ -61,7 +60,7 @@ def cart_create():
                 # Update Cart
 
                 data['updatedAt'] = datetime.timestamp(datetime.now())
-                mongo.db.cart.update_one({'user': ObjectId(current_user['_id'])}, {
+                mongo.db.carts.update_one({'user': ObjectId(current_user['_id'])}, {
                     '$set': {'updatedAt': data['updatedAt'], 'items': items}})
 
                 output['status'] = True
@@ -75,7 +74,7 @@ def cart_create():
                 newCart['createdAt'] = datetime.timestamp(datetime.now())
                 newCart['updatedAt'] = datetime.timestamp(datetime.now())
 
-                mongo.db.cart.insert_one(newCart)
+                mongo.db.carts.insert_one(newCart)
                 output['status'] = True
                 output['message'] = 'CART_CREATED'
 
@@ -94,7 +93,7 @@ def cart_get():
         current_user = get_jwt_identity()
 
         # Check if cart exists
-        user_cart = mongo.db.cart.find_one(
+        user_cart = mongo.db.carts.find_one(
             {'user': ObjectId(current_user['_id'])})
 
         if (user_cart):
