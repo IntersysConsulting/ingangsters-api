@@ -20,30 +20,6 @@ cart_create = {
     "required": ["product_id", "price", "quantity"]
 }
 
-cart_add_product = {
-    "type": "object",
-    "properties": {
-        "_id": {
-            "type": "string",
-        },
-        "products": {
-            "type": "array",
-            "items": {
-                "product_id": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "quantity": {
-                    "type": "number"
-                }
-            }
-        }
-    },
-    "required": ["_id", "products"]
-}
-
 
 def validate_cart_create(data):
     try:

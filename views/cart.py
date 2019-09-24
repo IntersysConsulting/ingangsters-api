@@ -86,3 +86,34 @@ def cart_create():
         else:
             output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
             return jsonify(output), 400
+
+# GET cart
+@cart.route('/cart', methods=['GET'])
+@jwt_required
+def cart_get():
+    if request.method == 'GET':
+
+        output = defaultObject()
+        current_user = get_jwt_identity()
+
+        # Check if cart exists
+        user_cart = mongo.db.cart.find_one(
+            {'user': ObjectId(current_user['_id'])})
+
+        if (user_cart):
+            # Change Object_Ids to Strings
+            user_cart['_id'] = str(user_cart['_id'])
+            del user_cart['user']
+            items = []
+            for item in user_cart['items']:
+                item['product_id'] = str(item['product_id'])
+                items.append(item)
+
+            del user_cart['items']
+            user_cart['items'] = items
+
+            output['data'] = user_cart
+            return jsonify(output), 200
+        else:
+            output['message'] = 'EMPTY_CART'
+            return jsonify(output), 400
