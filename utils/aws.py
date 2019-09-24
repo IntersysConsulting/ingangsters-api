@@ -12,7 +12,7 @@ class S3Instance:
         def __init__(self, bucket):
             self.bucketName = bucket
             self.session = boto3.Session(aws_access_key_id=os.getenv("AWS_KEY_ID"), aws_secret_access_key=os.getenv("AWS_SECRET_KEY"))
-            self.resource = boto3.resource("s3")
+            self.resource = self.session.resource("s3")
             self.bucket = self.resource.Bucket(name=bucket)
     
     def __init__(self):
