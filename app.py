@@ -16,7 +16,7 @@ def create_app():
     app = Flask(__name__)
     CORS(app)
     app.config['MONGO_URI'] = 'mongodb://localhost:27017/ecomerce'
-    # app.config['MONGO_URI'] = getenv("MONGO_URI")
+    #app.config['MONGO_URI'] = getenv("MONGO_URI")
     app.config['JWT_SECRET_KEY'] = getenv("JWT_SECRET_KEY")
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = getenv("JWT_ACCESS_TOKEN_EXPIRES")
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)

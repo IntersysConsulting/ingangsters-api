@@ -8,7 +8,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 
 from common.db import mongo
 from common.utils import *
-from jsonschemas.cart import validate_cart_create, validate_cart_add_product
+from jsonschemas.cart import validate_cart_create
 from datetime import datetime
 from bson import ObjectId
 
@@ -34,33 +34,35 @@ def cart_create():
             search_user_cart = mongo.db.cart.find_one(
                 {'user': ObjectId(current_user['_id'])})
 
-            # Look for product
-            #product = mongo.db.products.find_one({'_id': ObjectId(data['product_id'])})
-            product = mongo.db.product.find_one(
-                {'_id': ObjectId(data['product_id'])})
+            items = []
+            for item in data['items']:
+                # Look for product
+                #product = mongo.db.products.find_one({'_id': ObjectId(data['product_id'])})
+                product = mongo.db.product.find_one(
+                    {'_id': ObjectId(item['product_id'])})
 
-            # Validations
-            if(product == None):
-                output['message'] = 'PRODUCT_NOT_FOUND'
-                return jsonify(output), 404
+                # Validations
+                if(product == None):
+                    output['message'] = 'PRODUCT_NOT_FOUND'
+                    return jsonify(output), 404
 
-            if(data['quantity'] > product['stock']):
-                output['message'] = 'NO_ENOUGH_STOCK'
-                return jsonify(output), 404
+                if(item['quantity'] > product['stock']):
+                    output['message'] = 'NO_ENOUGH_STOCK'
+                    return jsonify(output), 404
 
-            if(data['price'] != product['price']):
-                output['message'] = 'PRICE_MISMATCH'
-                return jsonify(output), 404
+                if(item['price'] != product['price']):
+                    output['message'] = 'PRICE_MISMATCH'
+                    return jsonify(output), 404
+
+                item["product_id"] = ObjectId(item['product_id'])
+                items.append(item)
 
             if (search_user_cart):
                 # Update Cart
-                data["product_id"] = ObjectId(data['product_id'])
-                mongo.db.cart.update_one({'user': ObjectId(current_user['_id'])}, {
-                    '$push': {'items': data}})
 
                 data['updatedAt'] = datetime.timestamp(datetime.now())
                 mongo.db.cart.update_one({'user': ObjectId(current_user['_id'])}, {
-                    '$set': {'updatedAt': data['updatedAt']}})
+                    '$set': {'updatedAt': data['updatedAt'], 'items': items}})
 
                 output['status'] = True
                 output['message'] = 'CART_UPDATED'
@@ -69,12 +71,7 @@ def cart_create():
                 # Create Cart
                 newCart = {}
                 newCart['user'] = ObjectId(current_user['_id'])
-                data["product_id"] = ObjectId(data['product_id'])
-                data["price"] = data['price']
-                data["quantity"] = data['quantity']
-                newCart['items'] = [{"product_id": data["product_id"],
-                                     "price": data["price"], "quantity": data["quantity"]}]
-
+                newCart['items'] = items
                 newCart['createdAt'] = datetime.timestamp(datetime.now())
                 newCart['updatedAt'] = datetime.timestamp(datetime.now())
 
@@ -108,6 +105,10 @@ def cart_get():
             for item in user_cart['items']:
                 item['product_id'] = str(item['product_id'])
                 items.append(item)
+
+            if not items:
+                output['message'] = 'EMPTY_CART'
+                return jsonify(output), 400
 
             del user_cart['items']
             user_cart['items'] = items

@@ -7,33 +7,27 @@ cart_create = {
         "user": {
             "type": "string"
         },
-        "product_id": {
-            "type": "string"
-        },
-        "price": {
-            "type": "number"
-        },
-        "quantity": {
-            "type": "number"
+        "items": {
+            "type": "array",
+            "product_id": {
+                "type": "string"
+            },
+            "price": {
+                "type": "number"
+            },
+            "quantity": {
+                "type": "number"
+            }
         }
+
     },
-    "required": ["product_id", "price", "quantity"]
+    "required": ["items"]
 }
 
 
 def validate_cart_create(data):
     try:
         validate(data, cart_create)
-    except ValidationError as e:
-        return {'ok': False, 'message': e}
-    except SchemaError as e:
-        return {'ok': False, 'message': e}
-    return {'ok': True, 'data': data}
-
-
-def validate_cart_add_product(data):
-    try:
-        validate(data, cart_add_product)
     except ValidationError as e:
         return {'ok': False, 'message': e}
     except SchemaError as e:
