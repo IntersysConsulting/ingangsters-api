@@ -9,7 +9,7 @@ cart_create = {
         },
         "items": {
             "type": "array",
-            "product_id": {
+            "_id": {
                 "type": "string"
             },
             "price": {
