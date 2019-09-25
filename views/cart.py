@@ -38,7 +38,7 @@ def cart_create():
             for item in data['items']:
                 # Look for product
                 product = mongo.db.products.find_one(
-                    {'_id': ObjectId(item['product_id'])})
+                    {'_id': ObjectId(item['_id'])})
 
                 # Validations
                 if(product == None):
@@ -53,7 +53,7 @@ def cart_create():
                     output['message'] = 'PRICE_MISMATCH'
                     return jsonify(output), 404
 
-                item["product_id"] = ObjectId(item['product_id'])
+                item["_id"] = ObjectId(item['_id'])
                 items.append(item)
 
             if (search_user_cart):
@@ -102,7 +102,7 @@ def cart_get():
             del user_cart['user']
             items = []
             for item in user_cart['items']:
-                item['product_id'] = str(item['product_id'])
+                item['_id'] = str(item['_id'])
                 items.append(item)
 
             if not items:
