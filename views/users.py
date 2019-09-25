@@ -74,7 +74,7 @@ def user_signup():
             return jsonify(output), 400
 
 
-@users.route('/user/', methods=['GET'])
+@users.route('/user', methods=['GET'])
 @jwt_required
 def get_user():
     if request.method == 'GET':
