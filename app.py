@@ -27,9 +27,12 @@ def create_app():
     from views.admins import admins
     from views.users import users
     from views.products import products
+    from views.cart import cart
+
     app.register_blueprint(admins)
     app.register_blueprint(users)
     app.register_blueprint(products)
+    app.register_blueprint(cart)
 
     @app.route('/')
     def home():
