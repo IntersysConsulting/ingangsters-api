@@ -54,7 +54,8 @@ user_put_data = {
                 "type": "object",
                 "properties": {
                     "type":{
-                        "type": "string"
+                        "type": "string",
+                        "enum": ["Billing", "Shipping", "Both"]
                     },
                     "alias":{
                         "type": "string"
