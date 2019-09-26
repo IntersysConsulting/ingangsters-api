@@ -9,14 +9,20 @@ cart_create = {
         },
         "items": {
             "type": "array",
-            "_id": {
-                "type": "string"
-            },
-            "price": {
-                "type": "number"
-            },
-            "quantity": {
-                "type": "number"
+            "items":{
+                "type": "object",
+                "properties":{
+                    "_id": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "quantity": {
+                        "type": "number"
+                    }
+                },
+                "required": ["_id", "price", "quantity"]
             }
         }
 
