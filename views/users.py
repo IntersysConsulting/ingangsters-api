@@ -2,7 +2,8 @@ from flask import Flask, Blueprint, request, jsonify
 from flask_pymongo import PyMongo
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import generate_password_hash, check_password_hash
-from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity)
+from flask_jwt_extended import (create_access_token, create_refresh_token,
+                                jwt_required, jwt_refresh_token_required, get_jwt_identity)
 
 from common.db import mongo
 from common.utils import *
@@ -26,8 +27,10 @@ def user_login():
             if (search_user and check_password_hash(search_user['password'], data['password'])):
                 del search_user['password']
                 search_user['_id'] = str(search_user['_id'])
-                search_user['token'] = create_access_token(identity=search_user)
-                search_user['refresh'] = create_refresh_token(identity=search_user)
+                search_user['token'] = create_access_token(
+                    identity=search_user)
+                search_user['refresh'] = create_refresh_token(
+                    identity=search_user)
                 output['status'] = True
                 output['data'] = search_user
                 return jsonify(output), 200
@@ -48,13 +51,16 @@ def user_signup():
         if data['ok']:
             data = data['data']
             data['email'] = data['email'].lower()
-            find_same_email_user = mongo.db.users.find_one({'email': data['email']})
+            find_same_email_user = mongo.db.users.find_one(
+                {'email': data['email']})
             if (not find_same_email_user):
                 if (not data.get('phone')):
                     data['phone'] = None
-                data['password'] = generate_password_hash(data['password']).decode('utf-8')
+                data['password'] = generate_password_hash(
+                    data['password']).decode('utf-8')
                 data['createdAt'] = datetime.timestamp(datetime.now())
                 data['updatedAt'] = datetime.timestamp(datetime.now())
+                data['addresses'] = []
                 mongo.db.users.insert_one(data)
                 output['status'] = True
                 output['message'] = 'CORRECTLY_REGISTERED'
@@ -67,25 +73,23 @@ def user_signup():
             output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
             return jsonify(output), 400
 
-# GET ALL USERS
-# @users.route('/user/users', methods=['GET'])
-# @jwt_required
-# def get_users():
-#     if request.method == 'GET':
-#         output = defaultObject()
-#         current_user = get_jwt_identity()
-#         search_curent_user = mongo.db.admins.find_one({'email': current_user['email']})
-#         if (search_curent_user):
-#             for single_user in mongo.db.users.find():
-#                 single_user['_id'] = str(single_user['_id'])
-#                 single_user['createdAt'] = convertTimestampToDateTime(single_user['createdAt'])
-#                 single_user['updatedAt'] = convertTimestampToDateTime(single_user['updatedAt'])
-#                 output['status'] = True
-#                 output['data'].append(single_user)
-#             return jsonify(output), 200
-#         else:
-#             output['message'] = 'FORBIDDEN'
-#             return jsonify(output), 403
+
+@users.route('/user', methods=['GET'])
+@jwt_required
+def get_user():
+    if request.method == 'GET':
+        output = defaultObject()
+        current_user = get_jwt_identity()
+        print(current_user)
+        found_user = mongo.db.users.find_one(
+            {'_id': ObjectId(current_user['_id'])})
+        if (found_user):
+            del found_user['password']
+            found_user['_id'] = str(found_user['_id'])
+            return jsonify(found_user), 200
+        else:
+            output['message'] = 'FORBIDDEN'
+            return jsonify(found_user), 403
 
 
 @users.route('/user/update', methods=['PUT'])
@@ -107,7 +111,6 @@ def update_data_user():
             search_email_user = mongo.db.users.find_one({'email': data['email']})
             if ((not search_email_user) or data['email'] == current_user['email']):
                 user_updated = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {'$set': updateDict})
-
                 if (user_updated.modified_count + user_updated.matched_count):
                     output['status'] = True
                     output['message'] = 'UPDATED_CORRECTLY'
@@ -133,11 +136,14 @@ def update_password_user():
         data = validate_user_put_password(data)
         if data['ok']:
             data = data['data']
-            search_user_to_change = mongo.db.users.find_one({'_id': ObjectId(current_user['_id'])})
+            search_user_to_change = mongo.db.users.find_one(
+                {'_id': ObjectId(current_user['_id'])})
             if (search_user_to_change and check_password_hash(search_user_to_change['password'], data['oldpassword'])):
                 if (data['newpassword1'] == data['newpassword2']):
-                    data['newpassword1'] = generate_password_hash(data['newpassword1']).decode('utf-8')
-                    update_user = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {'$set': {'password': data['newpassword1'], 'updatedAt': data['updatedAt']}})
+                    data['newpassword1'] = generate_password_hash(
+                        data['newpassword1']).decode('utf-8')
+                    update_user = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {
+                                                            '$set': {'password': data['newpassword1'], 'updatedAt': data['updatedAt']}})
 
                     if (update_user.modified_count):
                         output['status'] = True
