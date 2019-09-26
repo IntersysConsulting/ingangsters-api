@@ -47,6 +47,39 @@ user_put_data = {
         "email": {
             "type": "string",
             "format": "email"
+        },
+        "addresses":{
+            "type": "array",
+            "items":{
+                "type": "object",
+                "properties": {
+                    "type":{
+                        "type": "string"
+                    },
+                    "alias":{
+                        "type": "string"
+                    },
+                    "country":{
+                        "type": "string"
+                    },
+                    "state":{
+                        "type": "string"
+                    },
+                    "city":{
+                        "type": "string"
+                    },
+                    "zip":{
+                        "type":"number"
+                    },
+                    "street":{
+                        "type":"string"
+                    },
+                    "number":{
+                        "type":"string"
+                    }
+                },
+                "required": ["alias", "country", "state", "city", "zip", "street", "number", "type"]
+            }
         }
     },
     "required": ["name", "email"]
