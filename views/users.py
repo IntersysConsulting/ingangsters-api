@@ -99,13 +99,16 @@ def update_data_user():
         if data['ok']:
             data = data['data']
             data['email'] = data['email'].lower()
-            if (not data.get('phone')):
-                data['phone'] = None
+            updateDict = {'email': data['email'], 'name': data['name']}
+            if (data.get('phone')):
+                updateDict["phone"] = data.get("phone")
+            if (data.get('addresses')):
+                updateDict["addresses"] = data.get("addresses")
             search_email_user = mongo.db.users.find_one({'email': data['email']})
-            if (not search_email_user):
-                user_updated = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {'$set': {'email': data['email'], 'name': data['name'], 'phone': data['phone']}})
+            if ((not search_email_user) or data['email'] == current_user['email']):
+                user_updated = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {'$set': updateDict})
 
-                if (user_updated.modified_count):
+                if (user_updated.modified_count + user_updated.matched_count):
                     output['status'] = True
                     output['message'] = 'UPDATED_CORRECTLY'
                     return jsonify(output), 200
