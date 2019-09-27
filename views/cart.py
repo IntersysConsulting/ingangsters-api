@@ -20,16 +20,13 @@ cart = Blueprint('cart', __name__)
 @jwt_required
 def cart_create():
     if request.method == 'POST':
-
         output = defaultObject()
         data = request.get_json()
         data = validate_cart_create(data)
         current_user = get_jwt_identity()
 
         if data['ok']:
-
             data = data['data']
-
             # Check if cart exists
             search_user_cart = mongo.db.carts.find_one(
                 {'user': ObjectId(current_user['_id'])})
@@ -39,7 +36,6 @@ def cart_create():
                 # Look for product
                 product = mongo.db.products.find_one(
                     {'_id': ObjectId(item['_id'])})
-
                 # Validations
                 if(product == None):
                     output['message'] = 'PRODUCT_NOT_FOUND'
@@ -58,7 +54,6 @@ def cart_create():
 
             if (search_user_cart):
                 # Update Cart
-
                 data['updatedAt'] = datetime.timestamp(datetime.now())
                 mongo.db.carts.update_one({'user': ObjectId(current_user['_id'])}, {
                     '$set': {'updatedAt': data['updatedAt'], 'items': items}})
@@ -88,7 +83,6 @@ def cart_create():
 @jwt_required
 def cart_get():
     if request.method == 'GET':
-
         output = defaultObject()
         current_user = get_jwt_identity()
 
@@ -98,8 +92,6 @@ def cart_get():
 
         if (user_cart):
             # Change Object_Ids to Strings
-            user_cart['_id'] = str(user_cart['_id'])
-            del user_cart['user']
             items = []
             for item in user_cart['items']:
                 item['_id'] = str(item['_id'])
@@ -109,10 +101,7 @@ def cart_get():
                 output['message'] = 'EMPTY_CART'
                 return jsonify(output), 400
 
-            del user_cart['items']
-            user_cart['items'] = items
-
-            output['data'] = user_cart
+            output['data'] = items
             return jsonify(output), 200
         else:
             output['message'] = 'EMPTY_CART'
