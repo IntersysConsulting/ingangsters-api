@@ -9,8 +9,10 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 from common.db import mongo
 from common.utils import *
 from jsonschemas.cart import validate_cart_create
+from jsonschemas.cart import validate_cart_summary
 from datetime import datetime
 from bson import ObjectId
+from bson.errors import InvalidId
 
 # Create the blueprint
 cart = Blueprint('cart', __name__)
@@ -53,7 +55,7 @@ def cart_create():
                     output['message'] = 'PRICE_MISMATCH'
                     return jsonify(output), 404
 
-                item["_id"] = ObjectId(item['_id'])
+                item['_id'] = ObjectId(item['_id'])
                 items.append(item)
 
             if (search_user_cart):
@@ -117,3 +119,35 @@ def cart_get():
         else:
             output['message'] = 'EMPTY_CART'
             return jsonify(output), 400
+        
+        
+# Get products summary (via POST)
+@cart.route('/cart/summary', methods=['POST'])
+def getCartSummary():
+    if request.method == 'POST':
+        output = defaultObject()
+        data = request.get_json()
+        data = validate_cart_summary(data)
+        if(data['ok']):
+            itemsList = data['data']['_ids']
+            resultSet = {}
+            for _id in itemsList:
+                try:
+                    productData = mongo.db.products.find_one({'_id': ObjectId(_id)})
+                    resultSet[_id] = {"image": productData['image'],
+                                      "name": productData["name"],
+                                      "price": productData["price"],
+                                      "stock": productData["stock"]}
+                except InvalidId:
+                    resultSet[_id] = "ERROR: This product does not exist"
+                    
+            output['status'] = True
+            output['message'] = 'FETCHED'
+            output['data'] = resultSet
+            
+            return jsonify(output), 200
+        else:
+            output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
+            return jsonify(output), 400
+        
+        

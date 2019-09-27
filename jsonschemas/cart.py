@@ -30,6 +30,27 @@ cart_create = {
     "required": ["items"]
 }
 
+cart_productsSummary = {
+    "type": "object",
+    "properties":{
+        "_ids": {
+            "type": "array",
+            "items":{
+                "type": "string"
+            }
+        }
+    },
+    "required": ["_ids"]
+}
+
+def validate_cart_summary(data):
+    try:
+        validate(data,cart_productsSummary)
+    except ValidationError as e:
+        return {'ok': False, 'message': e}
+    except SchemaError as e:
+        return {'ok': False, 'message': e}
+    return {'ok': True, 'data': data}
 
 def validate_cart_create(data):
     try:
