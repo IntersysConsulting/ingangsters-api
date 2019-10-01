@@ -80,14 +80,12 @@ def admin_login():
 @jwt_required
 def check_admin_user():
     if request.method == 'POST':
-        # output = defaultObject()
         current_user = get_jwt_identity()
         search_curent_admin = mongo.db.admins.find_one(
             {'email': current_user['email']})
         if (search_curent_admin):
             return jsonify({'isAdmin': True}), 200
         else:
-            # output['message'] = 'FORBIDDEN'
             return jsonify({'isAdmin': False}), 403
 
 
@@ -101,6 +99,7 @@ def get_admins():
             {'email': current_user['email']})
         if (search_curent_admin):
             for single_user in mongo.db.admins.find():
+                del single_user['password']
                 single_user['_id'] = str(single_user['_id'])
                 single_user['createdAt'] = convertTimestampToDateTime(
                     single_user['createdAt'])
