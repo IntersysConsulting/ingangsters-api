@@ -7,7 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 
 from common.db import mongo
 from common.utils import *
-from jsonschemas.users import validate_user_login, validate_user_signup, validate_user_put_data, validate_user_put_password
+from jsonschemas.users import validate_user_login, validate_user_signup, validate_user_put_data, validate_user_put_password, validate_just_id
 from datetime import datetime
 from bson import ObjectId
 
@@ -145,6 +145,7 @@ def update_password_user():
                 if (data['newpassword1'] == data['newpassword2']):
                     data['newpassword1'] = generate_password_hash(
                         data['newpassword1']).decode('utf-8')
+                    data['updatedAt'] = datetime.timestamp(datetime.now())
                     update_user = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {
                                                             '$set': {'password': data['newpassword1'], 'updatedAt': data['updatedAt']}})
 
@@ -164,3 +165,26 @@ def update_password_user():
         else:
             output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
             return jsonify(output), 400
+
+# For Testing
+@users.route('/user/delete', methods=['DELETE'])
+@jwt_required
+def delete_admin():
+    if request.method == 'DELETE':
+        output = defaultObject()
+        current_user = get_jwt_identity()
+        search_curent_user = mongo.db.users.find_one(
+            {'email': current_user['email']})
+        if (search_curent_user):
+            user_deleted = mongo.db.users.delete_one(
+                {'_id': ObjectId(search_curent_user['_id'])})
+            if (user_deleted.deleted_count):
+                output['status'] = True
+                output['message'] = 'DELETED_CORRECTLY'
+                return jsonify(output), 200
+            else:
+                output['message'] = 'USER_NOT_FOUND'
+                return jsonify(output), 404
+        else:
+            output['message'] = 'FORBIDDEN'
+            return jsonify(output), 403

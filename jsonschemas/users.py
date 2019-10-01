@@ -48,35 +48,35 @@ user_put_data = {
             "type": "string",
             "format": "email"
         },
-        "addresses":{
+        "addresses": {
             "type": "array",
-            "items":{
+            "items": {
                 "type": "object",
                 "properties": {
-                    "type":{
+                    "type": {
                         "type": "string",
                         "enum": ["Billing", "Shipping", "Both"]
                     },
-                    "alias":{
+                    "alias": {
                         "type": "string"
                     },
-                    "country":{
+                    "country": {
                         "type": "string"
                     },
-                    "state":{
+                    "state": {
                         "type": "string"
                     },
-                    "city":{
+                    "city": {
                         "type": "string"
                     },
-                    "zip":{
-                        "type":"number"
+                    "zip": {
+                        "type": "number"
                     },
-                    "street":{
-                        "type":"string"
+                    "street": {
+                        "type": "string"
                     },
-                    "number":{
-                        "type":"string"
+                    "number": {
+                        "type": "string"
                     }
                 },
                 "required": ["alias", "country", "state", "city", "zip", "street", "number", "type"]
@@ -100,6 +100,16 @@ user_put_password = {
         }
     },
     "required": ["oldpassword", "newpassword1", "newpassword2"]
+}
+
+check_id = {
+    "type": "object",
+    "properties": {
+        "_id": {
+            "type": "string",
+        }
+    },
+    "required": ["_id"]
 }
 
 
@@ -136,6 +146,16 @@ def validate_user_put_data(data):
 def validate_user_put_password(data):
     try:
         validate(data, user_put_password)
+    except ValidationError as e:
+        return {'ok': False, 'message': e}
+    except SchemaError as e:
+        return {'ok': False, 'message': e}
+    return {'ok': True, 'data': data}
+
+
+def validate_just_id(data):
+    try:
+        validate(data, check_id)
     except ValidationError as e:
         return {'ok': False, 'message': e}
     except SchemaError as e:
