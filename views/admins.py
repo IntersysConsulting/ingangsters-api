@@ -171,6 +171,7 @@ def update_password_admin():
                     if (data['newpassword1'] == data['newpassword2']):
                         data['newpassword1'] = generate_password_hash(
                             data['newpassword1']).decode('utf-8')
+                        data['updatedAt'] = datetime.timestamp(datetime.now())
                         update_admin = mongo.db.admins.update_one({'_id': ObjectId(data['_id'])}, {
                                                                   '$set': {'password': data['newpassword1'], 'updatedAt': data['updatedAt']}})
 
@@ -208,12 +209,22 @@ def delete_admin():
             data = validate_just_id(data)
             if data['ok']:
                 data = data['data']
-                admin_deleted = mongo.db.admins.delete_one(
+                search_admin_to_delete = mongo.db.admins.find_one(
                     {'_id': ObjectId(data['_id'])})
-                if (admin_deleted.deleted_count):
-                    output['status'] = True
-                    output['message'] = 'DELETED_CORRECTLY'
-                    return jsonify(output), 200
+                if(search_admin_to_delete):
+                    if(search_curent_admin['email'] != search_admin_to_delete['email']):
+                        admin_deleted = mongo.db.admins.delete_one(
+                            {'_id': ObjectId(data['_id'])})
+                        if (admin_deleted.deleted_count):
+                            output['status'] = True
+                            output['message'] = 'DELETED_CORRECTLY'
+                            return jsonify(output), 200
+                        else:
+                            output['message'] = 'USER_NOT_FOUND'
+                            return jsonify(output), 404
+                    else:
+                        output['message'] = 'FORBIDDEN'
+                        return jsonify(output), 403
                 else:
                     output['message'] = 'USER_NOT_FOUND'
                     return jsonify(output), 404
