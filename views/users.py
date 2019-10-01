@@ -86,7 +86,10 @@ def get_user():
         if (found_user):
             del found_user['password']
             found_user['_id'] = str(found_user['_id'])
-            return jsonify(found_user), 200
+            output['message'] = 'CORRECT'
+            output['status'] = True
+            output['data'] = found_user
+            return jsonify(output), 200
         else:
             output['message'] = 'FORBIDDEN'
             return jsonify(found_user), 403
