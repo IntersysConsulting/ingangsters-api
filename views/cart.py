@@ -45,11 +45,11 @@ def cart_create():
 
                 if(item['quantity'] > product['stock']):
                     output['message'] = 'NO_ENOUGH_STOCK'
-                    return jsonify(output), 404
+                    return jsonify(output), 400
 
                 if(item['price'] != product['price']):
                     output['message'] = 'PRICE_MISMATCH'
-                    return jsonify(output), 404
+                    return jsonify(output), 400
 
                 item['_id'] = ObjectId(item['_id'])
                 items.append(item)
@@ -101,15 +101,15 @@ def cart_get():
 
             if not items:
                 output['message'] = 'EMPTY_CART'
-                return jsonify(output), 400
+                return jsonify(output), 404
 
             output['data'] = items
             return jsonify(output), 200
         else:
             output['message'] = 'EMPTY_CART'
-            return jsonify(output), 400
-        
-        
+            return jsonify(output), 404
+
+
 # Get products summary (via POST)
 @cart.route('/cart/summary', methods=['POST'])
 def getCartSummary():
@@ -129,14 +129,12 @@ def getCartSummary():
                                       "stock": productData["stock"]}
                 except InvalidId:
                     resultSet[_id] = "ERROR: This product does not exist"
-                    
+
             output['status'] = True
             output['message'] = 'FETCHED'
             output['data'] = resultSet
-            
+
             return jsonify(output), 200
         else:
             output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
             return jsonify(output), 400
-        
-        

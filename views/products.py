@@ -19,7 +19,6 @@ products = Blueprint('products', __name__)
 def get_products():
     if request.method == 'GET':
         output = defaultObject()
-        # output.append({'name': 'Martin'})
         for single_product in mongo.db.products.find():
             if (single_product['available']):
                 del single_product['description']
@@ -86,7 +85,6 @@ def get_products_all():
         current_user = get_jwt_identity()
         search_current_admin = mongo.db.admins.find_one({'email': current_user['email']})
         if (search_current_admin):
-            # output.append({'name': 'Martin'})
             for single_product in mongo.db.products.find():
                 single_product['_id'] = str(single_product['_id'])
                 single_product['createdAt'] = convertTimestampToDateTime(single_product['createdAt'])
@@ -214,6 +212,7 @@ def delete_product_real():
             output['message'] = 'FORBIDDEN'
             return jsonify(output), 403
 
+
 @products.route('/products/images/upload', methods=['POST'])
 @jwt_required
 def upload_image():
@@ -233,4 +232,3 @@ def upload_image():
             output['status'] = False
             output['message'] = "FORBIDDEN"
             return jsonify(output), 403
-    # if request.method == 'GET'
