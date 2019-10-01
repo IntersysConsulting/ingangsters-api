@@ -67,8 +67,10 @@ def get_single_product():
                 del searched_product['sold']
                 searched_product['createdAt'] = convertTimestampToDateTime(searched_product['createdAt'])
                 searched_product['updatedAt'] = convertTimestampToDateTime(searched_product['updatedAt'])
+                output['message'] = 'CORRECT'
                 output['status'] = True
-                return jsonify(searched_product), 200
+                output['data'] = searched_product
+                return jsonify(output), 200
             else:
                 output['message'] = 'PRODUCT_NOT_FOUND'
                 return jsonify(output), 404
@@ -109,7 +111,8 @@ def create_product():
                 data['sold'] = 0
                 data['createdAt'] = datetime.timestamp(datetime.now())
                 data['updatedAt'] = datetime.timestamp(datetime.now())
-                mongo.db.products.insert_one(data)
+                new_product = mongo.db.products.insert_one(data)
+                output['data'] = str(new_product.inserted_id)
                 output['status'] = True
                 output['message'] = 'CORRECTLY_REGISTERED'
                 return jsonify(output), 200
