@@ -103,6 +103,8 @@ def cart_get():
                 output['message'] = 'EMPTY_CART'
                 return jsonify(output), 404
 
+            output['status'] = True
+            output['message'] = 'CORRECT'
             output['data'] = items
             return jsonify(output), 200
         else:
@@ -122,7 +124,8 @@ def getCartSummary():
             resultSet = {}
             for _id in itemsList:
                 try:
-                    productData = mongo.db.products.find_one({'_id': ObjectId(_id)})
+                    productData = mongo.db.products.find_one(
+                        {'_id': ObjectId(_id)})
                     resultSet[_id] = {"image": productData['image'],
                                       "name": productData["name"],
                                       "price": productData["price"],
@@ -138,3 +141,20 @@ def getCartSummary():
         else:
             output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
             return jsonify(output), 400
+
+# For Testing
+@cart.route('/cart/delete', methods=['DELETE'])
+@jwt_required
+def delete_admin():
+    if request.method == 'DELETE':
+        output = defaultObject()
+        current_user = get_jwt_identity()
+        cart_deleted = mongo.db.carts.delete_one(
+            {'user': ObjectId(current_user['_id'])})
+        if (cart_deleted.deleted_count):
+            output['status'] = True
+            output['message'] = 'DELETED_CORRECTLY'
+            return jsonify(output), 200
+        else:
+            output['message'] = 'CART_NOT_FOUND'
+            return jsonify(output), 404

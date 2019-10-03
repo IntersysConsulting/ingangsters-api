@@ -81,6 +81,16 @@ check_id = {
     "required": ["_id"]
 }
 
+check_password = {
+    "type": "object",
+    "properties": {
+        "password": {
+            "type": "string",
+        }
+    },
+    "required": ["password"]
+}
+
 
 def validate_admin_create(data):
     try:
@@ -125,6 +135,16 @@ def validate_admin_put_password(data):
 def validate_just_id(data):
     try:
         validate(data, check_id)
+    except ValidationError as e:
+        return {'ok': False, 'message': e}
+    except SchemaError as e:
+        return {'ok': False, 'message': e}
+    return {'ok': True, 'data': data}
+
+
+def validate_just_password(data):
+    try:
+        validate(data, check_password)
     except ValidationError as e:
         return {'ok': False, 'message': e}
     except SchemaError as e:

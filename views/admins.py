@@ -7,7 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 
 from common.db import mongo
 from common.utils import *
-from jsonschemas.admins import validate_admin_login, validate_admin_create, validate_admin_put_data, validate_admin_put_password, validate_just_id
+from jsonschemas.admins import validate_admin_login, validate_admin_create, validate_admin_put_data, validate_admin_put_password, validate_just_id, validate_just_password
 from datetime import datetime
 from bson import ObjectId
 
@@ -87,6 +87,32 @@ def check_admin_user():
             return jsonify({'isAdmin': True}), 200
         else:
             return jsonify({'isAdmin': False}), 403
+
+
+@admins.route('/admin/confirm', methods=['POST'])
+@jwt_required
+def confirm_password():
+    if request.method == 'POST':
+        output = defaultObject()
+        output['data'] = False
+        current_user = get_jwt_identity()
+        data = request.get_json()
+        data = validate_just_password(data)
+        if data['ok']:
+            data = data['data']
+            search_admin = mongo.db.admins.find_one(
+                {'email': current_user['email']})
+            if (search_admin and check_password_hash(search_admin['password'], data['password'])):
+                output['status'] = True
+                output['message'] = "CORRECT"
+                output['data'] = True
+                return jsonify(output), 200
+            else:
+                output['message'] = 'INVALID_CREDENTIALS'
+                return jsonify(output), 404
+        else:
+            output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
+            return jsonify(output), 400
 
 
 @admins.route('/admin/users', methods=['GET'])
