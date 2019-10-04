@@ -1919,9 +1919,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url2}}/products/search?search=nintendo",
+							"raw": "{{url}}/products/search?search=nintendo",
 							"host": [
-								"{{url2}}"
+								"{{url}}"
 							],
 							"path": [
 								"products",
