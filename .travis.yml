@@ -1,0 +1,23 @@
+languaje: node_js
+node_js:
+  - "12.8.0"
+
+services:
+  - docker
+
+branches:
+  only:
+    - development
+
+install:
+  - npm install newman
+
+before_script:
+  - node --version
+  - npm --version
+  - node_modules/.bin/newman --version
+  - docker build . -t ingangsters/flask-ecommerce -f Dockerfile
+
+script:
+  - docker run -e CI=true -e AWS_BUCKET_NAME=$AWS_BUCKET_NAME -e AWS_SECRET_KEY=$AWS_SECRET_KEY -e AWS_BUCKET_NAME=$AWS_BUCKET_NAME -e MONGO_URI=$MONGO_URI -e JWT_SECRET_KEY=$JWT_SECRET_KEY -p 8080:8080 -d ingangsters/flask-ecommerce
+  - node_modules/.bin/newman run tests.postman_collection.json
