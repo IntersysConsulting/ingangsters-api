@@ -6,7 +6,7 @@ services:
   - docker
 
 notifications:
-  slack: intersysconsulting:Ps1F9l0Wa26G9o1AxcbyFcCM
+  slack: intersysconsulting:nmWMXBTwVudJi3WB4C1xWwxm
 
 branches:
   only:
