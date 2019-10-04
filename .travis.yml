@@ -5,6 +5,9 @@ node_js:
 services:
   - docker
 
+notifications:
+  slack: intersysconsulting:Ps1F9l0Wa26G9o1AxcbyFcCM
+
 branches:
   only:
     - development
