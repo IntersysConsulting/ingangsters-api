@@ -24,3 +24,16 @@ before_script:
 script:
   - docker run -e CI=true -e AWS_BUCKET_NAME=$AWS_BUCKET_NAME -e AWS_SECRET_KEY=$AWS_SECRET_KEY -e AWS_BUCKET_NAME=$AWS_BUCKET_NAME -e MONGO_URI=$MONGO_URI -e JWT_SECRET_KEY=$JWT_SECRET_KEY -p 8080:8080 -d ingangsters/flask-ecommerce
   - node_modules/.bin/newman run tests.postman_collection.json
+
+deploy:
+  provider: elasticbeanstalk
+  on:
+    all_branches: true
+  access_key_id:
+    secure: "$EB_AWS_KEY_ID"
+  secret_access_key:
+    secure: "$EB_AWS_SECRET_KEY"
+  region: "us-east-2"
+  app: "ecommerce"
+  env: "ecommerce-test"
+  bucket_name: "elasticbeanstalk-us-east-2-255496091602"

@@ -1,0 +1,10 @@
+*/__pycache__
+__pycache__
+.git
+.virtenv
+.vscode
+.env
+.gitignore
+.travis.yml
+README.md
+tests.postman_collection
