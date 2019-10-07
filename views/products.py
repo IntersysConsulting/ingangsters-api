@@ -59,10 +59,8 @@ def get_single_product():
         data = validate_just_id(data)
         if (data['ok']):
             data = data['data']
-            print(data)
             searched_product = mongo.db.products.find_one(
                 {'_id': ObjectId(data['_id'])})
-            print(searched_product)
             if (searched_product):
                 del searched_product['_id']
                 del searched_product['sold']
@@ -254,7 +252,7 @@ def upload_image():
 def list_search():
     if request.method == 'GET':
         output = defaultObject()
-        query = request.args.get('search')
+        query = request.args.get('search', type=str)
         total_of_products = 0
         for single_product in mongo.db.products.find({'name': {'$regex': query, '$options': 'i'}}):
             if (single_product['available']):
@@ -266,8 +264,9 @@ def list_search():
                 single_product['_id'] = str(single_product['_id'])
                 output['data'].append(single_product)
         if total_of_products > 0:
+            output['message'] = 'CORRECT'
             output['status'] = True
             return jsonify(output), 200
         else:
-            output['message'] = 'ProductsNotFound'
+            output['message'] = 'NOT_FOUND'
             return jsonify(output), 404
