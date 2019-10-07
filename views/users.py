@@ -80,7 +80,6 @@ def get_user():
     if request.method == 'GET':
         output = defaultObject()
         current_user = get_jwt_identity()
-        print(current_user)
         found_user = mongo.db.users.find_one(
             {'_id': ObjectId(current_user['_id'])})
         if (found_user):
@@ -111,9 +110,11 @@ def update_data_user():
                 updateDict["phone"] = data.get("phone")
             if (data.get('addresses')):
                 updateDict["addresses"] = data.get("addresses")
-            search_email_user = mongo.db.users.find_one({'email': data['email']})
+            search_email_user = mongo.db.users.find_one(
+                {'email': data['email']})
             if ((not search_email_user) or data['email'] == current_user['email']):
-                user_updated = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {'$set': updateDict})
+                user_updated = mongo.db.users.update_one(
+                    {'_id': ObjectId(current_user['_id'])}, {'$set': updateDict})
                 if (user_updated.modified_count + user_updated.matched_count):
                     output['status'] = True
                     output['message'] = 'UPDATED_CORRECTLY'

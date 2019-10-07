@@ -7,4 +7,4 @@ __pycache__
 .gitignore
 .travis.yml
 README.md
-tests.postman_collection
+tests.postman_collection.json
