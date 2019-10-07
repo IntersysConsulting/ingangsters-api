@@ -37,10 +37,9 @@ def get_products_paginated(total_items, page):
         output = defaultObjectDataAsAnObject()
         output['data']['total_products'] = mongo.db.products.count_documents({
                                                                              'available': True})
-
         products_array = []
         skip = (total_items * page) - total_items
-        for single_product in mongo.db.products.find().skip(skip).limit(total_items):
+        for single_product in mongo.db.products.find({'available': True}).skip(skip).limit(total_items):
             if (single_product['available']):
                 del single_product['description']
                 del single_product['updatedAt']
@@ -48,7 +47,6 @@ def get_products_paginated(total_items, page):
                 del single_product['sold']
                 single_product['_id'] = str(single_product['_id'])
                 products_array.append(single_product)
-
         output['data']['products'] = products_array
         return jsonify(output), 200
 
@@ -240,7 +238,7 @@ def upload_image():
             {'email': current_user['email']})
         if (search_current_admin):
             formData = dict(request.files)
-            image = formData.get("image")
+            image = formData.get('image')
             uploadedURL = S3Instance().uploadImage(image)
             output['status'] = True
             output['message'] = 'DONE'
@@ -248,7 +246,7 @@ def upload_image():
             return jsonify(output), 200
         else:
             output['status'] = False
-            output['message'] = "FORBIDDEN"
+            output['message'] = 'FORBIDDEN'
             return jsonify(output), 403
 
 
