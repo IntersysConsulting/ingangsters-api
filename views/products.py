@@ -52,10 +52,6 @@ def get_products_paginated(total_items, page):
             filterCriteria['shippable'] = False
         
         sortingCriteria = []
-        if(priceSortingCriteria == "ASCENDING"):
-            sortingCriteria.append(('price', pymongo.ASCENDING))
-        elif(priceSortingCriteria == "DESCENDING"):
-            sortingCriteria.append(('price', pymongo.DESCENDING))
         if(nameSortingCriteria == "ASCENDING"):
             sortingCriteria.append(('name', pymongo.ASCENDING))
         elif(nameSortingCriteria == "DESCENDING"):
@@ -64,6 +60,10 @@ def get_products_paginated(total_items, page):
             sortingCriteria.append(('stock', pymongo.ASCENDING))
         elif(stockSortingCriteria == "DESCENDING"):
             sortingCriteria.append(('stock', pymongo.DESCENDING))
+        if(priceSortingCriteria == "ASCENDING"):
+            sortingCriteria.append(('price', pymongo.ASCENDING))
+        elif(priceSortingCriteria == "DESCENDING"):
+            sortingCriteria.append(('price', pymongo.DESCENDING))
         
         output = defaultObjectDataAsAnObject()
         output['data']['total_products'] = mongo.db.products.count_documents(filterCriteria)
