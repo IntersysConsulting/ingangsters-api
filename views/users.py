@@ -108,6 +108,7 @@ def update_data_user():
             updateDict = {'email': data['email'], 'name': data['name']}
             if (data.get('phone')):
                 updateDict["phone"] = data.get("phone")
+            updateDict["addresses"] = []
             if (data.get('addresses')):
                 updateDict["addresses"] = data.get("addresses")
             search_email_user = mongo.db.users.find_one(
@@ -148,7 +149,7 @@ def update_password_user():
                         data['newpassword1']).decode('utf-8')
                     data['updatedAt'] = datetime.timestamp(datetime.now())
                     update_user = mongo.db.users.update_one({'_id': ObjectId(current_user['_id'])}, {
-                                                            '$set': {'password': data['newpassword1'], 'updatedAt': data['updatedAt']}})
+                        '$set': {'password': data['newpassword1'], 'updatedAt': data['updatedAt']}})
 
                     if (update_user.modified_count):
                         output['status'] = True
