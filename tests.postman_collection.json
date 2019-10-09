@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ab87235c-fbb5-4a1b-969c-6aca1561aef6",
+		"_postman_id": "19358ba0-cc61-4e21-82f6-33ab788cdb66",
 		"name": "ECOMMERCE TESTS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1762,7 +1762,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/products/20/1",
+							"raw": "{{url}}/products/20/1?sortPrice=ASCENDING&shippable=TRUE&available=TRUE&sortName=ASCENDING&sortStock=ASCENDING",
 							"host": [
 								"{{url}}"
 							],
@@ -1770,6 +1770,28 @@
 								"products",
 								"20",
 								"1"
+							],
+							"query": [
+								{
+									"key": "sortPrice",
+									"value": "ASCENDING"
+								},
+								{
+									"key": "shippable",
+									"value": "TRUE"
+								},
+								{
+									"key": "available",
+									"value": "TRUE"
+								},
+								{
+									"key": "sortName",
+									"value": "ASCENDING"
+								},
+								{
+									"key": "sortStock",
+									"value": "ASCENDING"
+								}
 							]
 						},
 						"description": "Get products in page.\n\n\nFirst parameter: total items to get\n\nSecond: Page number"
@@ -2304,7 +2326,7 @@
 					},
 					"response": [
 						{
-							"name": "NO_ENOUGH_STOCK",
+							"name": "PRICE_MISMATCH",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -2317,7 +2339,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":100\n\t\t}\n\t]\n}",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2349,7 +2371,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "55"
+									"value": "54"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -2361,11 +2383,75 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 24 Sep 2019 18:20:14 GMT"
+									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"NO_ENOUGH_STOCK\",\n    \"status\": false\n}"
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "CART_CREATED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"items\":[\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\r\n\t\t\t\"price\":600000,\r\n\t\t\t\"quantity\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\r\n\t\t\t\"price\":300000,\r\n\t\t\t\"quantity\":3\r\n\t\t}\r\n\t]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 Sep 2019 14:26:37 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"CART_CREATED\",\n    \"status\": true\n}"
 						},
 						{
 							"name": "PRODUCT_NOT_FOUND",
@@ -2430,70 +2516,6 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"data\": [],\n    \"message\": \"PRODUCT_NOT_FOUND\",\n    \"status\": false\n}"
-						},
-						{
-							"name": "PRICE_MISMATCH",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://127.0.0.1:5000/cart",
-									"protocol": "http",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"cart"
-									]
-								}
-							},
-							"status": "NOT FOUND",
-							"code": 404,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "54"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Server",
-									"value": "Werkzeug/0.15.5 Python/3.7.4"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
 						},
 						{
 							"name": "BAD_REQUEST",
@@ -2624,7 +2646,7 @@
 							"body": "{\n    \"data\": [],\n    \"message\": \"CART_UPDATED\",\n    \"status\": true\n}"
 						},
 						{
-							"name": "CART_CREATED",
+							"name": "NO_ENOUGH_STOCK",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -2637,7 +2659,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"items\":[\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\r\n\t\t\t\"price\":600000,\r\n\t\t\t\"quantity\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\r\n\t\t\t\"price\":300000,\r\n\t\t\t\"quantity\":3\r\n\t\t}\r\n\t]\r\n}",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":100\n\t\t}\n\t]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2659,8 +2681,8 @@
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
+							"status": "NOT FOUND",
+							"code": 404,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
@@ -2669,7 +2691,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "51"
+									"value": "55"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -2681,11 +2703,11 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 25 Sep 2019 14:26:37 GMT"
+									"value": "Tue, 24 Sep 2019 18:20:14 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"CART_CREATED\",\n    \"status\": true\n}"
+							"body": "{\n    \"data\": [],\n    \"message\": \"NO_ENOUGH_STOCK\",\n    \"status\": false\n}"
 						}
 					]
 				},
@@ -2954,60 +2976,6 @@
 					},
 					"response": [
 						{
-							"name": "Invalid JSON body",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"not\": \"a correct format\",\n\t\"gives\": \"an error\"\n}"
-								},
-								"url": {
-									"raw": "{{url}}/cart/summary",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cart",
-										"summary"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "html",
-							"header": [
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Length",
-									"value": "232"
-								},
-								{
-									"key": "Content-Type",
-									"value": "text/html"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 27 Sep 2019 15:40:31 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								}
-							],
-							"cookie": [],
-							"body": "{\r\n  \"data\": [],\r\n  \"message\": \"BAD_REQUEST: '_ids' is a required property\\n\\nFailed validating 'required' in schema:\\n    {'properties': {'_ids': {'items': {'type': 'string'}, 'type': 'array'}},\\n     'required': ['_ids'],\\n     'type': 'object'}\\n\\nOn instance:\\n    {'gives': 'an error', 'not': 'a correct format'}\",\r\n  \"status\": false\r\n}"
-						},
-						{
 							"name": "Valid _ids",
 							"originalRequest": {
 								"method": "POST",
@@ -3060,6 +3028,60 @@
 							],
 							"cookie": [],
 							"body": "{\r\n  \"data\": {\r\n    \"5d79191222b845fd1e662d28\": {\r\n      \"image\": \"https://images-na.ssl-images-amazon.com/images/I/71yqkmEkGzL._SL1500_.jpg\",\r\n      \"name\": \" Bose SoundLink Micro - Altavoz Bluetooth Resistente al Agua, Negro (Black) \",\r\n      \"price\": 250000,\r\n      \"stock\": 1\r\n    },\r\n    \"5d7be66ce49153c53487fb05\": {\r\n      \"image\": \"https://images-na.ssl-images-amazon.com/images/I/51Z1jkudQGL._SL1000_.jpg\",\r\n      \"name\": \"Xiaomi Audífonos Bluetooth Redmi Airdots \",\r\n      \"price\": 58900,\r\n      \"stock\": 1\r\n    }\r\n  },\r\n  \"message\": \"FETCHED\",\r\n  \"status\": true\r\n}"
+						},
+						{
+							"name": "Invalid JSON body",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"not\": \"a correct format\",\n\t\"gives\": \"an error\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/cart/summary",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cart",
+										"summary"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "232"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 27 Sep 2019 15:40:31 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n  \"data\": [],\r\n  \"message\": \"BAD_REQUEST: '_ids' is a required property\\n\\nFailed validating 'required' in schema:\\n    {'properties': {'_ids': {'items': {'type': 'string'}, 'type': 'array'}},\\n     'required': ['_ids'],\\n     'type': 'object'}\\n\\nOn instance:\\n    {'gives': 'an error', 'not': 'a correct format'}\",\r\n  \"status\": false\r\n}"
 						},
 						{
 							"name": "Mixed valid and invalid _ids",
