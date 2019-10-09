@@ -139,6 +139,36 @@ def get_admins():
             return jsonify(output), 403
 
 
+@admins.route('/admin/<int:total_users>/<int:page>', methods=['GET'])
+@jwt_required
+def get_admins_paginated(total_users, page):
+    if request.method == 'GET':
+        output = defaultObjectDataAsAnObject()
+        current_user = get_jwt_identity()
+        search_curent_admin = mongo.db.admins.find_one(
+            {'email': current_user['email']})
+        if (search_curent_admin):
+            output['data']['total_users'] = mongo.db.admins.count()
+            admins_array = []
+            skip = (total_users * page) - total_users
+
+            for admin_user in mongo.db.admins.find().skip(skip).limit(total_users):
+                del admin_user['password']
+                admin_user['_id'] = str(admin_user['_id'])
+                admin_user['createdAt'] = convertTimestampToDateTime(
+                    admin_user['createdAt'])
+                admin_user['updatedAt'] = convertTimestampToDateTime(
+                    admin_user['updatedAt'])
+                admins_array.append(admin_user)
+
+            output['status'] = True
+            output['data']['admin_users'] = admins_array
+            return jsonify(output)
+        else:
+            output['message'] = 'FORBIDDEN'
+            return jsonify(output), 403
+
+
 @admins.route('/admin/update', methods=['PUT'])
 @jwt_required
 def update_data_admin():
