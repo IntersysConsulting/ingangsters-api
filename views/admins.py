@@ -47,7 +47,32 @@ def admin_create():
                 output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
                 return jsonify(output), 400
 
-
+@admins.route('/admin/get', methods=['POST'])
+@jwt_required
+def getAdminData():
+    if(request.method == 'POST'):
+        output = defaultObjectDataAsAnObject()
+        current_user = get_jwt_identity()
+        search_curent_admin = mongo.db.admins.find_one(
+            {'email': current_user['email']})
+        data = request.get_json()
+        data = validate_just_id(data)
+        if(search_curent_admin):
+            if(data['ok']):
+                data = data['data']
+                targetUser = mongo.db.admins.find_one({'_id': ObjectId(data['_id'])})
+                del targetUser['password']
+                targetUser['_id'] = str(targetUser['_id'])
+                output['data'] = targetUser
+                return jsonify(output), 200
+            else:
+                output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
+                return jsonify(output), 400
+        else:
+            output['message'] = 'FORBIDDEN'
+            return jsonify(output), 403
+        
+        
 @admins.route('/admin/login', methods=['POST'])
 def admin_login():
     if request.method == 'POST':
