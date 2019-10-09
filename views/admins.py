@@ -139,6 +139,22 @@ def get_admins():
             return jsonify(output), 403
 
 
+@admins.route('/admin/<int:total_users>/<int:page>', methods=['GET'])
+def get_admins_paginated(total_users, page):
+    if request.method == 'GET':
+        output = defaultObjectDataAsAnObject()
+        output['data']['total_users'] = mongo.db.admins.count()
+        admins_array = []
+        skip = (total_users * page) - total_users
+
+        for admin_user in mongo.db.admins.find().skip(skip).limit(total_users):
+            admin_user['_id'] = str(admin_user['_id'])
+            admins_array.append(admin_user)
+
+        output['data']['admin_users'] = admins_array
+        return jsonify(output)
+
+
 @admins.route('/admin/update', methods=['PUT'])
 @jwt_required
 def update_data_admin():
