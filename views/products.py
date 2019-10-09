@@ -12,6 +12,7 @@ from jsonschemas.products import validate_products_post, validate_products_put, 
 from datetime import datetime
 from bson import ObjectId
 from utils.aws import S3Instance
+import pymongo
 # Create the blueprint
 products = Blueprint('products', __name__)
 
@@ -34,19 +35,52 @@ def get_products():
 @products.route('/products/<int:total_items>/<int:page>', methods=['GET'])
 def get_products_paginated(total_items, page):
     if request.method == 'GET':
+        priceSortingCriteria = request.args.get("sortPrice", type=str)
+        nameSortingCriteria = request.args.get("sortName", type=str)
+        stockSortingCriteria = request.args.get("sortStock", type=str)
+        shippableFilterCriteria = request.args.get("shippable", type=str)
+        availableFilterCriteria = request.args.get("available", type=str)
+        
+        filterCriteria = {}
+        if(availableFilterCriteria == "TRUE"):
+            filterCriteria['available'] = True
+        elif (availableFilterCriteria == "FALSE"):
+            filterCriteria['available'] = False
+        if(shippableFilterCriteria == "TRUE"):
+            filterCriteria['shippable'] = True
+        elif(shippableFilterCriteria == "FALSE"):
+            filterCriteria['shippable'] = False
+        
+        sortingCriteria = []
+        if(nameSortingCriteria == "ASCENDING"):
+            sortingCriteria.append(('name', pymongo.ASCENDING))
+        elif(nameSortingCriteria == "DESCENDING"):
+            sortingCriteria.append(('name', pymongo.DESCENDING))
+        if(stockSortingCriteria == "ASCENDING"):
+            sortingCriteria.append(('stock', pymongo.ASCENDING))
+        elif(stockSortingCriteria == "DESCENDING"):
+            sortingCriteria.append(('stock', pymongo.DESCENDING))
+        if(priceSortingCriteria == "ASCENDING"):
+            sortingCriteria.append(('price', pymongo.ASCENDING))
+        elif(priceSortingCriteria == "DESCENDING"):
+            sortingCriteria.append(('price', pymongo.DESCENDING))
+        
         output = defaultObjectDataAsAnObject()
-        output['data']['total_products'] = mongo.db.products.count_documents({
-                                                                             'available': True})
+        output['data']['total_products'] = mongo.db.products.count_documents(filterCriteria)
         products_array = []
         skip = (total_items * page) - total_items
-        for single_product in mongo.db.products.find({'available': True}).skip(skip).limit(total_items):
-            if (single_product['available']):
-                del single_product['description']
-                del single_product['updatedAt']
-                del single_product['createdAt']
-                del single_product['sold']
-                single_product['_id'] = str(single_product['_id'])
-                products_array.append(single_product)
+        productList = mongo.db.products.find(filterCriteria).collation({ "locale": "en", "strength": 1, "caseLevel": False})
+        if(bool(sortingCriteria)):
+            productList = productList.sort(sortingCriteria).skip(skip).limit(total_items)
+        else:
+            productList = productList.skip(skip).limit(total_items)
+        for single_product in productList:
+            del single_product['description']
+            del single_product['updatedAt']
+            del single_product['createdAt']
+            del single_product['sold']
+            single_product['_id'] = str(single_product['_id'])
+            products_array.append(single_product)
         output['data']['products'] = products_array
         return jsonify(output), 200
 
