@@ -61,10 +61,14 @@ def getAdminData():
             if(data['ok']):
                 data = data['data']
                 targetUser = mongo.db.admins.find_one({'_id': ObjectId(data['_id'])})
-                del targetUser['password']
-                targetUser['_id'] = str(targetUser['_id'])
-                output['data'] = targetUser
-                return jsonify(output), 200
+                if(targetUser):
+                    del targetUser['password']
+                    targetUser['_id'] = str(targetUser['_id'])
+                    output['data'] = targetUser
+                    return jsonify(output), 200
+                else:
+                    output['message'] = "NOT_FOUND"
+                    return jsonify(output), 404
             else:
                 output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
                 return jsonify(output), 400
