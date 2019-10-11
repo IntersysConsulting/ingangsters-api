@@ -344,3 +344,34 @@ def search_product_admin():
             output['status'] = False
             output['message'] = 'FORBIDDEN'
             return jsonify(output), 403
+
+@admins.route('/admin/users/search', methods=['GET'])
+@jwt_required
+def search_user_admin():
+    if request.method == 'GET':
+        output = defaultObject()
+        current_user = get_jwt_identity()
+        search_curent_admin = mongo.db.admins.find_one(
+            {'email': current_user['email']})
+        if (search_curent_admin):
+            query = request.args.get('search', type=str)
+            total_admins = 0
+            for admin in mongo.db.admins.find({'$or':[{'name':{'$regex':query, '$options':'i'}}, 
+            {'email':{'$regex':query, '$options':'i'}}]}):
+                total_admins += 1
+                del admin['password']
+                admin['_id'] = str(admin['_id'])
+                output['data'].append(admin)
+            
+            if total_admins > 0:
+                output['message'] : 'CORRECT'
+                output['status'] : True
+                return jsonify(output), 200
+            else:
+                output['message'] = 'USER_NOT_FOUND'
+                return jsonify(output), 404
+        else:
+
+            output['status'] = False
+            output['message'] = 'FORBIDDEN'
+            return jsonify(output), 403
