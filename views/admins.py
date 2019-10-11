@@ -315,3 +315,32 @@ def delete_admin():
         else:
             output['message'] = 'FORBIDDEN'
             return jsonify(output), 403
+
+@admins.route('/admin/products/search', methods=['GET'])
+@jwt_required
+def search_product_admin():
+    if request.method == 'GET':
+        output = defaultObject()
+        current_user = get_jwt_identity()
+        search_curent_admin = mongo.db.admins.find_one(
+            {'email': current_user['email']})
+        if (search_curent_admin):
+            query = request.args.get('search', type=str)
+            total_products = 0
+            for product in mongo.db.products.find({'name':{'$regex':query, '$options':'i'}}):
+                total_products += 1
+                product['_id'] = str(product['_id'])
+                output['data'].append(product)
+            
+            if total_products > 0:
+                output['message'] : 'CORRECT'
+                output['status'] : True
+                return jsonify(output), 200
+            else:
+                output['message'] = 'PRODUCT_NOT_FOUND'
+                return jsonify(output), 404
+        else:
+
+            output['status'] = False
+            output['message'] = 'FORBIDDEN'
+            return jsonify(output), 403
