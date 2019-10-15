@@ -326,15 +326,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:5000/admin/login",
-									"protocol": "http",
+									"raw": "{{url}}/admin/login",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{url}}"
 									],
-									"port": "5000",
 									"path": [
 										"admin",
 										"login"
@@ -1099,15 +1094,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:5000/admin/3/1",
-									"protocol": "http",
+									"raw": "{{url}}/admin/3/1",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{url}}"
 									],
-									"port": "5000",
 									"path": [
 										"admin",
 										"3",
@@ -1234,15 +1224,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:5000/admin/products/search?search=xbox",
-									"protocol": "http",
+									"raw": "{{url}}/admin/products/search?search=xbox",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{url}}"
 									],
-									"port": "5000",
 									"path": [
 										"admin",
 										"products",
@@ -1387,15 +1372,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:5000/admin/users/search?search=intersys",
-									"protocol": "http",
+									"raw": "{{url}}/admin/users/search?search=intersys",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{url}}"
 									],
-									"port": "5000",
 									"path": [
 										"admin",
 										"users",
@@ -3881,19 +3861,19 @@
 	],
 	"variable": [
 		{
-			"id": "0fc65297-c41a-4c19-a642-567e977d2885",
-			"key": "url2",
+			"id": "35db83ce-a5c7-4e5c-8137-b18726f3c570",
+			"key": "url",
 			"value": "localhost:8080",
 			"type": "string"
 		},
 		{
-			"id": "d5ea1dab-456a-40c4-89ed-d584a660b8dc",
-			"key": "url",
+			"id": "e251dde9-febd-4f81-a068-c17d2409e6fa",
+			"key": "url2",
 			"value": "localhost:5000",
 			"type": "string"
 		},
 		{
-			"id": "c5c5cf42-0cde-4b7a-b51d-bd2619247388",
+			"id": "f61088f7-2b3e-4b7a-a702-739fb127f97e",
 			"key": "url3",
 			"value": "http://ecommerce-test.us-east-2.elasticbeanstalk.com",
 			"type": "string"
