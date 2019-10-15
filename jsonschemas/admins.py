@@ -47,28 +47,12 @@ admin_put_data = {
         "email": {
             "type": "string",
             "format": "email"
+        },
+        "newpassword": {
+            "type": "string"
         }
     },
     "required": ["_id", "name", "email"]
-}
-
-admin_put_password = {
-    "type": "object",
-    "properties": {
-        "_id": {
-            "type": "string",
-        },
-        "oldpassword": {
-            "type": "string",
-        },
-        "newpassword1": {
-            "type": "string",
-        },
-        "newpassword2": {
-            "type": "string",
-        }
-    },
-    "required": ["_id", "oldpassword", "newpassword1", "newpassword2"]
 }
 
 check_id = {
@@ -115,16 +99,6 @@ def validate_admin_login(data):
 def validate_admin_put_data(data):
     try:
         validate(data, admin_put_data)
-    except ValidationError as e:
-        return {'ok': False, 'message': e}
-    except SchemaError as e:
-        return {'ok': False, 'message': e}
-    return {'ok': True, 'data': data}
-
-
-def validate_admin_put_password(data):
-    try:
-        validate(data, admin_put_password)
     except ValidationError as e:
         return {'ok': False, 'message': e}
     except SchemaError as e:
