@@ -7,7 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 
 from common.db import mongo
 from common.utils import *
-from jsonschemas.admins import validate_admin_login, validate_admin_create, validate_admin_put_data, validate_admin_put_password, validate_just_id, validate_just_password
+from jsonschemas.admins import validate_admin_login, validate_admin_create, validate_admin_put_data, validate_just_id, validate_just_password
 from datetime import datetime
 from bson import ObjectId
 
@@ -47,6 +47,7 @@ def admin_create():
                 output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
                 return jsonify(output), 400
 
+
 @admins.route('/admin/get', methods=['POST'])
 @jwt_required
 def getAdminData():
@@ -60,7 +61,8 @@ def getAdminData():
         if(search_curent_admin):
             if(data['ok']):
                 data = data['data']
-                targetUser = mongo.db.admins.find_one({'_id': ObjectId(data['_id'])})
+                targetUser = mongo.db.admins.find_one(
+                    {'_id': ObjectId(data['_id'])})
                 del targetUser['password']
                 targetUser['_id'] = str(targetUser['_id'])
                 output['data'] = targetUser
@@ -71,8 +73,8 @@ def getAdminData():
         else:
             output['message'] = 'FORBIDDEN'
             return jsonify(output), 403
-        
-        
+
+
 @admins.route('/admin/login', methods=['POST'])
 def admin_login():
     if request.method == 'POST':
@@ -211,9 +213,14 @@ def update_data_admin():
                 search_email_user = mongo.db.users.find_one(
                     {'email': data['email']})
                 if (not search_email_user):
+                    updateDict = {'email': data['email'], 'name': data['name']}
                     data['updatedAt'] = datetime.timestamp(datetime.now())
-                    admin_updated = mongo.db.admins.update_one({'_id': ObjectId(data['_id'])}, {'$set': {
-                                                               'email': data['email'], 'name': data['name'], 'updatedAt': data['updatedAt']}})
+                    if (data.get('newpassword')):
+                        updateDict['password'] = generate_password_hash(
+                            data['newpassword']).decode('utf-8')
+
+                    admin_updated = mongo.db.admins.update_one(
+                        {'_id': ObjectId(data['_id'])}, {'$set': updateDict})
 
                     if (admin_updated.modified_count):
                         output['status'] = True
@@ -224,50 +231,6 @@ def update_data_admin():
                         return jsonify(output), 404
                 else:
                     output['message'] = 'EMAIL_ALREADY_IN_USE'
-                    return jsonify(output), 409
-            else:
-                output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
-                return jsonify(output), 400
-        else:
-            output['message'] = 'FORBIDDEN'
-            return jsonify(output), 403
-
-
-@admins.route('/admin/changepassword', methods=['PUT'])
-@jwt_required
-def update_password_admin():
-    if request.method == 'PUT':
-        output = defaultObject()
-        current_user = get_jwt_identity()
-        search_curent_admin = mongo.db.admins.find_one(
-            {'email': current_user['email']})
-        if (search_curent_admin):
-            data = request.get_json()
-            data = validate_admin_put_password(data)
-            if data['ok']:
-                data = data['data']
-                search_admin_to_change = mongo.db.admins.find_one(
-                    {'_id': ObjectId(data['_id'])})
-                if (search_admin_to_change and check_password_hash(search_admin_to_change['password'], data['oldpassword'])):
-                    if (data['newpassword1'] == data['newpassword2']):
-                        data['newpassword1'] = generate_password_hash(
-                            data['newpassword1']).decode('utf-8')
-                        data['updatedAt'] = datetime.timestamp(datetime.now())
-                        update_admin = mongo.db.admins.update_one({'_id': ObjectId(data['_id'])}, {
-                                                                  '$set': {'password': data['newpassword1'], 'updatedAt': data['updatedAt']}})
-
-                        if (update_admin.modified_count):
-                            output['status'] = True
-                            output['message'] = 'UPDATED_CORRECTLY'
-                            return jsonify(output), 200
-                        else:
-                            output['message'] = 'USER_NOT_FOUND'
-                            return jsonify(output), 404
-                    else:
-                        output['message'] = 'PASSWORDS_NOT_MATCH'
-                        return jsonify(output), 409
-                else:
-                    output['message'] = 'INCORRECT_PASSWORD'
                     return jsonify(output), 409
             else:
                 output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
@@ -316,6 +279,7 @@ def delete_admin():
             output['message'] = 'FORBIDDEN'
             return jsonify(output), 403
 
+
 @admins.route('/admin/products/search', methods=['GET'])
 @jwt_required
 def search_product_admin():
@@ -327,14 +291,14 @@ def search_product_admin():
         if (search_curent_admin):
             query = request.args.get('search', type=str)
             total_products = 0
-            for product in mongo.db.products.find({'name':{'$regex':query, '$options':'i'}}):
+            for product in mongo.db.products.find({'name': {'$regex': query, '$options': 'i'}}):
                 total_products += 1
                 product['_id'] = str(product['_id'])
                 output['data'].append(product)
-            
+
             if total_products > 0:
-                output['message'] : 'CORRECT'
-                output['status'] : True
+                output['message']: 'CORRECT'
+                output['status']: True
                 return jsonify(output), 200
             else:
                 output['message'] = 'PRODUCT_NOT_FOUND'
@@ -344,6 +308,7 @@ def search_product_admin():
             output['status'] = False
             output['message'] = 'FORBIDDEN'
             return jsonify(output), 403
+
 
 @admins.route('/admin/users/search', methods=['GET'])
 @jwt_required
@@ -356,16 +321,16 @@ def search_user_admin():
         if (search_curent_admin):
             query = request.args.get('search', type=str)
             total_admins = 0
-            for admin in mongo.db.admins.find({'$or':[{'name':{'$regex':query, '$options':'i'}}, 
-            {'email':{'$regex':query, '$options':'i'}}]}):
+            for admin in mongo.db.admins.find({'$or': [{'name': {'$regex': query, '$options': 'i'}},
+                                                       {'email': {'$regex': query, '$options': 'i'}}]}):
                 total_admins += 1
                 del admin['password']
                 admin['_id'] = str(admin['_id'])
                 output['data'].append(admin)
-            
+
             if total_admins > 0:
-                output['message'] : 'CORRECT'
-                output['status'] : True
+                output['message']: 'CORRECT'
+                output['status']: True
                 return jsonify(output), 200
             else:
                 output['message'] = 'USER_NOT_FOUND'
