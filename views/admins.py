@@ -210,9 +210,11 @@ def update_data_admin():
             if data['ok']:
                 data = data['data']
                 data['email'] = data['email'].lower()
-                search_email_user = mongo.db.users.find_one(
+                search_email_user = mongo.db.admins.find_one(
                     {'email': data['email']})
-                if (not search_email_user):
+                targetUser = mongo.db.admins.find_one(
+                    {'_id': ObjectId(data['_id'])})
+                if ((not search_email_user ) or search_email_user['email'] == targetUser['email']):
                     updateDict = {'email': data['email'], 'name': data['name']}
                     data['updatedAt'] = datetime.timestamp(datetime.now())
                     if (data.get('newpassword')):
