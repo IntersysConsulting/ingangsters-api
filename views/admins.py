@@ -63,10 +63,16 @@ def getAdminData():
                 data = data['data']
                 targetUser = mongo.db.admins.find_one(
                     {'_id': ObjectId(data['_id'])})
-                del targetUser['password']
-                targetUser['_id'] = str(targetUser['_id'])
-                output['data'] = targetUser
-                return jsonify(output), 200
+                if (targetUser):
+                    del targetUser['password']
+                    targetUser['_id'] = str(targetUser['_id'])
+                    output['message'] = "CORRECT"
+                    output['status'] = True
+                    output['data'] = targetUser
+                    return jsonify(output), 200
+                else:
+                    output['message'] = 'NOT_FOUND'
+                    return jsonify(output), 404
             else:
                 output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
                 return jsonify(output), 400
@@ -189,8 +195,9 @@ def get_admins_paginated(total_users, page):
                 admins_array.append(admin_user)
 
             output['status'] = True
+            output['message'] = 'CORRECT'
             output['data']['admin_users'] = admins_array
-            return jsonify(output)
+            return jsonify(output), 200
         else:
             output['message'] = 'FORBIDDEN'
             return jsonify(output), 403
@@ -214,7 +221,7 @@ def update_data_admin():
                     {'email': data['email']})
                 targetUser = mongo.db.admins.find_one(
                     {'_id': ObjectId(data['_id'])})
-                if ((not search_email_user ) or search_email_user['email'] == targetUser['email']):
+                if ((not search_email_user) or search_email_user['email'] == targetUser['email']):
                     updateDict = {'email': data['email'], 'name': data['name']}
                     data['updatedAt'] = datetime.timestamp(datetime.now())
                     if (data.get('newpassword')):
