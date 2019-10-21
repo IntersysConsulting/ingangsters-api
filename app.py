@@ -28,17 +28,17 @@ def create_app():
     from views.users import users
     from views.products import products
     from views.cart import cart
+    from views.orders import orders
 
     app.register_blueprint(admins)
     app.register_blueprint(users)
     app.register_blueprint(products)
     app.register_blueprint(cart)
+    app.register_blueprint(orders)
 
     @app.route('/')
     def home():
         html = '<title>Hello ecommerce</title> <center><h1>Welcome</h1> <br> ecommerce Api Endpoint V2<center>'
-        html += '<br> <a href="https://documenter.getpostman.com/view/8265028/SVfWN6UG?version=latest">Docs Here</a>'
-        html += '<br> <a href="https://documenter.getpostman.com/view/8265028/SVfWN6UG?version=latest"><img src="https://images.g2crowd.com/uploads/product/image/social_landscape/social_landscape_fd527e1fc777d9e31b2a28e8d3c959a4/postman.jpg"></img></a>'
         return html, 200
 
     return app

@@ -23,10 +23,6 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-											"});",
-											"",
 											"var standardScheme = {",
 											"    \"type\":\"object\",",
 											"    \"properties\":{",
@@ -175,10 +171,6 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-											"});",
-											"",
 											"var standardScheme = {",
 											"    \"type\":\"object\",",
 											"    \"properties\":{",
@@ -247,10 +239,6 @@
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 											"});",
 											"",
 											"var standardScheme = {",
@@ -412,10 +400,6 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-											"});",
-											"",
 											"jsonData = JSON.parse(responseBody)",
 											"",
 											"",
@@ -471,10 +455,6 @@
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 											"});",
 											"",
 											"var standardScheme = {",
@@ -613,10 +593,6 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-											"});",
-											"",
 											"var standardScheme = {",
 											"    \"type\":\"object\",",
 											"    \"properties\":{",
@@ -694,10 +670,6 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-											"});",
-											"",
 											"var standardScheme = {",
 											"    \"type\":\"object\",",
 											"    \"properties\":{",
@@ -766,10 +738,6 @@
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 											"});",
 											"",
 											"var standardScheme = {",
@@ -904,25 +872,21 @@
 							]
 						},
 						{
-							"name": "DELETE - ADMIN",
+							"name": "GET ADMIN DATA",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "104eadd6-7963-4a4f-a2a8-1695dd590948",
+										"id": "ad14037a-310b-4a63-9702-1f658c7c8b07",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-											"});",
-											"",
 											"var standardScheme = {",
 											"    \"type\":\"object\",",
 											"    \"properties\":{",
-											"        \"data\":{\"type\":\"array\"},",
+											"        \"data\":{\"type\":\"object\"},",
 											"        \"status\":{\"type\":\"boolean\"},",
 											"        \"message\":{\"type\":\"string\"}",
 											"    },",
@@ -933,6 +897,23 @@
 											"",
 											"pm.test('Returns standard response', function() {",
 											"  pm.expect(tv4.validate(jsonData, standardScheme)).to.be.true;",
+											"});",
+											"",
+											"var responseScheme = {",
+											"    \"type\":\"object\",",
+											"    \"properties\": {",
+											"        \"_id\": \"string\",",
+											"        \"createdAt\": \"string\",",
+											"        \"email\": \"string\",",
+											"        \"name\": \"string\",",
+											"        \"updatedAt\": \"string\",",
+											"    },",
+											"    \"required\":[\"_id\",\"createdAt\",\"email\",\"name\",\"updatedAt\"]",
+											"};",
+											"",
+											"",
+											"pm.test('Data object is valid', function() {",
+											"  pm.expect(tv4.validate(jsonData.data, responseScheme)).to.be.true;",
 											"});"
 										],
 										"type": "text/javascript"
@@ -950,46 +931,6 @@
 										}
 									]
 								},
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"_id\":\"{{newAdminId}}\"\n}"
-								},
-								"url": {
-									"raw": "{{url}}/admin/delete",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"admin",
-										"delete"
-									]
-								},
-								"description": "!BEARER TOKEN REQUIRED - ADMIN\n\nDeletes a specified Admin (_id)."
-							},
-							"response": []
-						},
-						{
-							"name": "GET ADMIN DATA",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzA2MzM5NzIsIm5iZiI6MTU3MDYzMzk3MiwianRpIjoiZGJlMGYzZDQtNGQ3Yi00MGM3LWIxNWQtZGEyYjY4ZmNlOWJjIiwiZXhwIjoxNTcwNzIwMzcyLCJpZGVudGl0eSI6eyJfaWQiOiI1ZDcyYzM5YmFhMTM0ZWY5YThjNWNjOGIiLCJuYW1lIjoiVGVzdCBVc2VyIE5hbWUiLCJlbWFpbCI6ImFkbWluQGEuY29tIiwiY3JlYXRlZEF0IjoxNTY3ODAyMjY3LjQxMTI1NCwidXBkYXRlZEF0IjoxNTY3ODAyMjY3LjQxMTI2N30sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.c3D6zM78kMPabPj7TafMxY1zN8o4QOkGFC7BwxqXN38",
-											"type": "string"
-										}
-									]
-								},
 								"method": "POST",
 								"header": [
 									{
@@ -1001,7 +942,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"_id\": \"5d72c39baa134ef9a8c5cc8b\"\n}"
+									"raw": "{\n\t\"_id\": \"5d9e0781c089c978d00c8cad\"\n}"
 								},
 								"url": {
 									"raw": "{{url}}/admin/get",
@@ -1080,13 +1021,74 @@
 						},
 						{
 							"name": "GET ADMINS PAGINATED",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e81bcd40-a55f-4e98-b2a8-93273011a45f",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var standardScheme = {",
+											"    \"type\":\"object\",",
+											"    \"properties\":{",
+											"        \"data\":{\"type\":\"object\"},",
+											"        \"status\":{\"type\":\"boolean\"},",
+											"        \"message\":{\"type\":\"string\"}",
+											"    },",
+											"    \"required\":[\"data\",\"status\",\"message\"]",
+											"}",
+											"",
+											"jsonData = JSON.parse(responseBody)",
+											"",
+											"pm.test('Returns standard response', function() {",
+											"  pm.expect(tv4.validate(jsonData, standardScheme)).to.be.true;",
+											"});",
+											"",
+											"var dataScheme = {",
+											"    \"type\":\"object\",",
+											"    \"properties\": {",
+											"        \"admin_users\": \"array\",",
+											"        \"total_users\": \"number\"",
+											"    },",
+											"    \"required\":[\"admin_users\",\"total_users\"]",
+											"};",
+											"",
+											"",
+											"pm.test('Data object is valid', function() {",
+											"  pm.expect(tv4.validate(jsonData.data, dataScheme)).to.be.true;",
+											"});",
+											"",
+											"var responseScheme = {",
+											"    \"type\":\"array\",",
+											"    \"properties\": {",
+											"        \"_id\": \"string\",",
+											"        \"createdAt\": \"string\",",
+											"        \"email\": \"string\",",
+											"        \"name\": \"string\",",
+											"        \"updatedAt\": \"string\",",
+											"    },",
+											"    \"required\":[\"_id\",\"createdAt\",\"updatedAt\",\"name\",\"email\"]",
+											"};",
+											"",
+											"",
+											"pm.test('Data object is valid', function() {",
+											"  pm.expect(tv4.validate(jsonData.data.admin_users, responseScheme)).to.be.true;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzA3MTM2ODgsIm5iZiI6MTU3MDcxMzY4OCwianRpIjoiNzA2NTAwYTAtYTk3ZC00NzRjLTgwZGQtOGRiNmM0YjNmZDU5IiwiZXhwIjoxNTcwODAwMDg4LCJpZGVudGl0eSI6eyJfaWQiOiI1ZDcyYzM5YmFhMTM0ZWY5YThjNWNjOGIiLCJuYW1lIjoiVGVzdCBVc2VyIE5hbWUiLCJlbWFpbCI6ImFkbWluQGEuY29tIiwiY3JlYXRlZEF0IjoxNTY3ODAyMjY3LjQxMTI1NCwidXBkYXRlZEF0IjoxNTY3ODAyMjY3LjQxMTI2N30sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.h1oEHK03xtE9ToB2LPV4MIXHOZkJAx_okUBtLAZ6HKU",
+											"value": "{{adminToken}}",
 											"type": "string"
 										}
 									]
@@ -1210,13 +1212,67 @@
 						},
 						{
 							"name": "GET PRODUCTS SEARCH",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bf5fe240-af0b-409d-b9f1-d0bb565f8b67",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"});",
+											"",
+											"var standardScheme = {",
+											"    \"type\":\"object\",",
+											"    \"properties\":{",
+											"        \"data\":{\"type\":\"array\"},",
+											"        \"status\":{\"type\":\"boolean\"},",
+											"        \"message\":{\"type\":\"string\"}",
+											"    },",
+											"    \"required\":[\"data\",\"status\",\"message\"]",
+											"}",
+											"",
+											"jsonData = JSON.parse(responseBody)",
+											"",
+											"pm.test('Returns standard response', function() {",
+											"  pm.expect(tv4.validate(jsonData, standardScheme)).to.be.true;",
+											"});",
+											"",
+											"",
+											"var productsScheme = {",
+											"    \"type\":\"array\",",
+											"    \"properties\": {",
+											"        \"_id\": \"string\",",
+											"        \"available\": \"boolean\",",
+											"        \"image\": \"string\",",
+											"        \"name\": \"string\",",
+											"        \"price\": \"number\",",
+											"        \"shippable\": \"string\",",
+											"        \"stock\": \"number\",",
+											"    },",
+											"    \"required\":[\"_id\",\"available\",\"image\",\"name\",\"price\",\"shippable\",\"stock\"]",
+											"};",
+											"",
+											"",
+											"pm.test('Products array is valid', function() {",
+											"  pm.expect(tv4.validate(jsonData.data, productsScheme)).to.be.true;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzA4MDYyOTAsIm5iZiI6MTU3MDgwNjI5MCwianRpIjoiMDdjMDc3ZTItZmQ5NS00MmZiLWFlNzUtOWQ1MzNkZjI3MjM5IiwiZXhwIjoxNTcwODkyNjkwLCJpZGVudGl0eSI6eyJfaWQiOiI1ZDcyYzM5YmFhMTM0ZWY5YThjNWNjOGIiLCJuYW1lIjoiVGVzdCBVc2VyIE5hbWUiLCJlbWFpbCI6ImFkbWluQGEuY29tIiwiY3JlYXRlZEF0IjoxNTY3ODAyMjY3LjQxMTI1NCwidXBkYXRlZEF0IjoxNTY3ODAyMjY3LjQxMTI2N30sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.D-dAgqTe2EOUep11LSibq7JY-bsBrkiDRQpYTYVd8ss",
+											"value": "{{adminToken}}",
 											"type": "string"
 										}
 									]
@@ -1358,13 +1414,61 @@
 						},
 						{
 							"name": "GET USERS SEARCH",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4b00b258-c80f-40b6-9f13-4f4e043c1cf8",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var standardScheme = {",
+											"    \"type\":\"object\",",
+											"    \"properties\":{",
+											"        \"data\":{\"type\":\"array\"},",
+											"        \"status\":{\"type\":\"boolean\"},",
+											"        \"message\":{\"type\":\"string\"}",
+											"    },",
+											"    \"required\":[\"data\",\"status\",\"message\"]",
+											"}",
+											"",
+											"jsonData = JSON.parse(responseBody)",
+											"",
+											"pm.test('Returns standard response', function() {",
+											"  pm.expect(tv4.validate(jsonData, standardScheme)).to.be.true;",
+											"});",
+											"",
+											"",
+											"var responseScheme = {",
+											"    \"type\":\"array\",",
+											"    \"properties\": {",
+											"        \"_id\": \"string\",",
+											"        \"createdAt\": \"string\",",
+											"        \"email\": \"string\",",
+											"        \"name\": \"string\",",
+											"        \"updatedAt\": \"string\",",
+											"    },",
+											"    \"required\":[\"_id\",\"createdAt\",\"updatedAt\",\"name\",\"email\"]",
+											"};",
+											"",
+											"",
+											"pm.test('Data object is valid', function() {",
+											"  pm.expect(tv4.validate(jsonData.data, responseScheme)).to.be.true;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzA4MDYyOTAsIm5iZiI6MTU3MDgwNjI5MCwianRpIjoiMDdjMDc3ZTItZmQ5NS00MmZiLWFlNzUtOWQ1MzNkZjI3MjM5IiwiZXhwIjoxNTcwODkyNjkwLCJpZGVudGl0eSI6eyJfaWQiOiI1ZDcyYzM5YmFhMTM0ZWY5YThjNWNjOGIiLCJuYW1lIjoiVGVzdCBVc2VyIE5hbWUiLCJlbWFpbCI6ImFkbWluQGEuY29tIiwiY3JlYXRlZEF0IjoxNTY3ODAyMjY3LjQxMTI1NCwidXBkYXRlZEF0IjoxNTY3ODAyMjY3LjQxMTI2N30sImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.D-dAgqTe2EOUep11LSibq7JY-bsBrkiDRQpYTYVd8ss",
+											"value": "{{adminToken}}",
 											"type": "string"
 										}
 									]
@@ -1503,6 +1607,76 @@
 									"body": "{\n    \"data\": [\n        {\n            \"_id\": \"5d93ceda604aed0dadac8717\",\n            \"createdAt\": 1569967834.351874,\n            \"email\": \"mhernandez@intersysconsulting.com\",\n            \"name\": \"Martin Hernandez\",\n            \"updatedAt\": 1569967834.351886\n        },\n        {\n            \"_id\": \"5d9e0781c089c978d00c8cad\",\n            \"createdAt\": 1570637697.415879,\n            \"email\": \"srobles@intersysconsulting.com\",\n            \"name\": \"Sofia Robles Sandoval\",\n            \"updatedAt\": 1570637697.415879\n        },\n        {\n            \"_id\": \"5d9e64defd09530b91111d5a\",\n            \"createdAt\": 1570661598.076188,\n            \"email\": \"jgarcia@intersysconsulting.com\",\n            \"name\": \"Jorge Garcia\",\n            \"updatedAt\": 1570661598.0762\n        }\n    ],\n    \"message\": \"\",\n    \"status\": false\n}"
 								}
 							]
+						},
+						{
+							"name": "DELETE - ADMIN",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "104eadd6-7963-4a4f-a2a8-1695dd590948",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var standardScheme = {",
+											"    \"type\":\"object\",",
+											"    \"properties\":{",
+											"        \"data\":{\"type\":\"array\"},",
+											"        \"status\":{\"type\":\"boolean\"},",
+											"        \"message\":{\"type\":\"string\"}",
+											"    },",
+											"    \"required\":[\"data\",\"status\",\"message\"]",
+											"}",
+											"",
+											"jsonData = JSON.parse(responseBody)",
+											"",
+											"pm.test('Returns standard response', function() {",
+											"  pm.expect(tv4.validate(jsonData, standardScheme)).to.be.true;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"_id\":\"{{newAdminId}}\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/admin/delete",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"admin",
+										"delete"
+									]
+								},
+								"description": "!BEARER TOKEN REQUIRED - ADMIN\n\nDeletes a specified Admin (_id)."
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -1521,10 +1695,6 @@
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 											"});",
 											"",
 											"var standardScheme = {",
@@ -1588,10 +1758,6 @@
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 											"});",
 											"",
 											"var standardScheme = {",
@@ -1683,10 +1849,6 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-											"});",
-											"",
 											"var standardScheme = {",
 											"    \"type\":\"object\",",
 											"    \"properties\":{",
@@ -1758,10 +1920,6 @@
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 											"});",
 											"",
 											"var standardScheme = {",
@@ -1890,10 +2048,6 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-											"});",
-											"",
 											"var standardScheme = {",
 											"    \"type\":\"object\",",
 											"    \"properties\":{",
@@ -1962,10 +2116,6 @@
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 											"});",
 											"",
 											"var standardScheme = {",
@@ -2090,10 +2240,6 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
@@ -2159,10 +2305,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 									"});",
 									"",
 									"var standardScheme = {",
@@ -2273,10 +2415,6 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
@@ -2357,10 +2495,6 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 5000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(5000);",
-									"});",
-									"",
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
@@ -2434,10 +2568,6 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
@@ -2486,7 +2616,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\":\"Producto prueba\",\n\t\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\n\t\"shippable\":true,\n\t\"price\":1,\n\t\"stock\":1,\n\t\"image\":\"https://sdtimes.com/wp-content/uploads/2018/03/opstman.jpg\"\n}"
+							"raw": "{\n\t\"name\":\"Producto prueba\",\n\t\"description\":\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\n\t\"shippable\":true,\n\t\"price\":1,\n\t\"stock\":10,\n\t\"image\":\"https://sdtimes.com/wp-content/uploads/2018/03/opstman.jpg\"\n}"
 						},
 						"url": {
 							"raw": "{{url}}/products/create",
@@ -2512,10 +2642,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 									"});",
 									"",
 									"var standardScheme = {",
@@ -2596,10 +2722,6 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
@@ -2657,58 +2779,6 @@
 						"description": "!BEARER TOKEN REQUIRED - ADMIN\n\nUpdates \"available\", \"name\", \"description\", \"shippable\", \"price\", \"stock\" and \"image\" from a specified product (\"_id\")."
 					},
 					"response": []
-				},
-				{
-					"name": "UPLOAD IMAGE",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "multipart/form-data",
-								"type": "text"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "image",
-									"description": "The image file, could be JPEG, JPG, PNG.",
-									"type": "file",
-									"src": []
-								}
-							]
-						},
-						"url": {
-							"raw": "{{url}}/products/images/upload",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"products",
-								"images",
-								"upload"
-							]
-						},
-						"description": "Use this endpoint to upload an image to S3 and get the URL for the regular and the compressed (thumbnail) object for the same file."
-					},
-					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -2726,10 +2796,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 									"});",
 									"",
 									"var standardScheme = {",
@@ -3186,10 +3252,6 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
@@ -3388,10 +3450,6 @@
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 1000ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-									"});",
-									"",
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
@@ -3579,34 +3637,908 @@
 							"body": "{\r\n  \"data\": [],\r\n  \"message\": \"BAD_REQUEST: '_ids' is a required property\\n\\nFailed validating 'required' in schema:\\n    {'properties': {'_ids': {'items': {'type': 'string'}, 'type': 'array'}},\\n     'required': ['_ids'],\\n     'type': 'object'}\\n\\nOn instance:\\n    {'gives': 'an error', 'not': 'a correct format'}\",\r\n  \"status\": false\r\n}"
 						}
 					]
-				},
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ORDERS",
+			"item": [
 				{
-					"name": "DELETE MY CART",
+					"name": "CREATE ORDER GUEST",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b15cfd00-7669-49cc-8b38-df7788226d54",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var standardScheme = {",
+									"    \"type\":\"object\",",
+									"    \"properties\":{",
+									"        \"data\":{\"type\":\"array\"},",
+									"        \"status\":{\"type\":\"boolean\"},",
+									"        \"message\":{\"type\":\"string\"}",
+									"    },",
+									"    \"required\":[\"data\",\"status\",\"message\"]",
+									"}",
+									"",
+									"jsonData = JSON.parse(responseBody)",
+									"",
+									"pm.test('Returns standard response', function() {",
+									"  pm.expect(tv4.validate(jsonData, standardScheme)).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{userToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
-						"method": "DELETE",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Martin Hernandez\",\n  \"email\": \"martin-one2@hotmail.com\",\n  \"billing_address\": {\n    \"country\": \"Mexico\",\n    \"state\": \"Jalisco\",\n    \"city\": \"Guadalajara\",\n    \"zip\": 12345,\n    \"street\": \"Calle 1\",\n    \"number\": \"1234\"\n  },\n  \"shipping_address\": {\n    \"country\": \"Mexico\",\n    \"state\": \"Jalisco\",\n    \"city\": \"Guadalajara\",\n    \"zip\": 12345,\n    \"street\": \"Calle 1\",\n    \"number\": \"1234\"\n  },\n  \"items\": [\n    {\n      \"_id\": \"{{productId}}\",\n      \"price\": 10,\n      \"quantity\": 3\n    }\n  ]\n}"
+						},
 						"url": {
-							"raw": "{{url}}/cart/delete",
+							"raw": "{{url}}/orders/create",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"cart",
-								"delete"
+								"orders",
+								"create"
 							]
-						}
+						},
+						"description": "If cart doesn't exists CREATES cart, if it does then it UPDATES"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "PRODUCT_NOT_FOUND",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84026d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "57"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:28:39 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRODUCT_NOT_FOUND\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "BAD_REQUEST",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "490"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:29:02 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"BAD_REQUEST: 'items' is a required property\\n\\nFailed validating 'required' in schema:\\n    {'properties': {'items': {'price': {'type': 'number'},\\n                              'product_id': {'type': 'string'},\\n                              'quantity': {'type': 'number'},\\n                              'type': 'array'},\\n                    'user': {'type': 'string'}},\\n     'required': ['items'],\\n     'type': 'object'}\\n\\nOn instance:\\n    {}\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "NO_ENOUGH_STOCK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":100\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:20:14 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"NO_ENOUGH_STOCK\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "PRICE_MISMATCH",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "CART_CREATED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"items\":[\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\r\n\t\t\t\"price\":600000,\r\n\t\t\t\"quantity\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\r\n\t\t\t\"price\":300000,\r\n\t\t\t\"quantity\":3\r\n\t\t}\r\n\t]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 Sep 2019 14:26:37 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"CART_CREATED\",\n    \"status\": true\n}"
+						},
+						{
+							"name": "CART_UPDATED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:16:16 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"CART_UPDATED\",\n    \"status\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "CREATE ORDER REGISTER USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b15cfd00-7669-49cc-8b38-df7788226d54",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var standardScheme = {",
+									"    \"type\":\"object\",",
+									"    \"properties\":{",
+									"        \"data\":{\"type\":\"array\"},",
+									"        \"status\":{\"type\":\"boolean\"},",
+									"        \"message\":{\"type\":\"string\"}",
+									"    },",
+									"    \"required\":[\"data\",\"status\",\"message\"]",
+									"}",
+									"",
+									"jsonData = JSON.parse(responseBody)",
+									"",
+									"pm.test('Returns standard response', function() {",
+									"  pm.expect(tv4.validate(jsonData, standardScheme)).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\":\"5d8b823b482416ddb5826ca2\",\n  \"billing_address\": {\n    \"country\": \"Mexico\",\n    \"state\": \"Jalisco\",\n    \"city\": \"Guadalajara\",\n    \"zip\": 12345,\n    \"street\": \"Calle 1\",\n    \"number\": \"1234\"\n  },\n  \"shipping_address\": {\n    \"country\": \"Mexico\",\n    \"state\": \"Jalisco\",\n    \"city\": \"Guadalajara\",\n    \"zip\": 12345,\n    \"street\": \"Calle 1\",\n    \"number\": \"1234\"\n  },\n  \"items\": [\n    {\n      \"_id\": \"{{productId}}\",\n      \"price\": 10,\n      \"quantity\": 3\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{url}}/orders/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orders",
+								"create"
+							]
+						},
+						"description": "If cart doesn't exists CREATES cart, if it does then it UPDATES"
+					},
+					"response": [
+						{
+							"name": "CART_CREATED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"items\":[\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\r\n\t\t\t\"price\":600000,\r\n\t\t\t\"quantity\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\r\n\t\t\t\"price\":300000,\r\n\t\t\t\"quantity\":3\r\n\t\t}\r\n\t]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 Sep 2019 14:26:37 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"CART_CREATED\",\n    \"status\": true\n}"
+						},
+						{
+							"name": "PRICE_MISMATCH",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "BAD_REQUEST",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "490"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:29:02 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"BAD_REQUEST: 'items' is a required property\\n\\nFailed validating 'required' in schema:\\n    {'properties': {'items': {'price': {'type': 'number'},\\n                              'product_id': {'type': 'string'},\\n                              'quantity': {'type': 'number'},\\n                              'type': 'array'},\\n                    'user': {'type': 'string'}},\\n     'required': ['items'],\\n     'type': 'object'}\\n\\nOn instance:\\n    {}\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "PRODUCT_NOT_FOUND",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84026d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "57"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:28:39 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRODUCT_NOT_FOUND\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "CART_UPDATED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:16:16 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"CART_UPDATED\",\n    \"status\": true\n}"
+						},
+						{
+							"name": "NO_ENOUGH_STOCK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":100\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:20:14 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"NO_ENOUGH_STOCK\",\n    \"status\": false\n}"
+						}
+					]
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -3832,6 +4764,34 @@
 						"description": "!BEARER TOKEN REQUIRED - ADMIN\n\nDelete a product specified (\"_id\")."
 					},
 					"response": []
+				},
+				{
+					"name": "DELETE MY CART",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cart/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cart",
+								"delete"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -3861,13 +4821,13 @@
 	],
 	"variable": [
 		{
-			"id": "d1ca5e26-778d-479e-842f-db57a396401a",
+			"id": "6db11c8c-ba2a-41f5-b492-b684106685a6",
 			"key": "url",
 			"value": "localhost:5000",
 			"type": "string"
 		},
 		{
-			"id": "d5052614-d29c-4bf0-a0ee-2f76b281b457",
+			"id": "daf446e2-2cfd-4ffe-8b4e-72ae4af47651",
 			"key": "url2",
 			"value": "http://ecommerce-test.us-east-2.elasticbeanstalk.com",
 			"type": "string"
