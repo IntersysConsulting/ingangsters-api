@@ -22,7 +22,7 @@ def get_products():
     if request.method == 'GET':
         output = defaultObject()
         for single_product in mongo.db.products.find():
-            if (single_product['available']):
+            if (single_product['available'] and single_product['stock'] >= 1):
                 del single_product['description']
                 del single_product['updatedAt']
                 del single_product['createdAt']
@@ -97,7 +97,7 @@ def get_filtered_products():
         shippableFilterCriteria = request.args.get("shippable", type=str)
         search = request.args.get("search", type=str)
             
-        filterCriteria = {}
+        filterCriteria = { "available" : True, "stock" : {"$gte" : 1}}
         if(shippableFilterCriteria == "TRUE"):
             filterCriteria['shippable'] = True
         elif(shippableFilterCriteria == "FALSE"):
@@ -115,7 +115,7 @@ def get_filtered_products():
             sortingCriteria.append(('price', pymongo.ASCENDING))
         elif(priceSortingCriteria == "DESCENDING"):
             sortingCriteria.append(('price', pymongo.DESCENDING))
-        
+            
         output = defaultObjectDataAsAnObject()
         products_array = []
         productList = mongo.db.products.find(filterCriteria).collation({ "locale": "en", "strength": 1, "caseLevel": False})
@@ -337,7 +337,7 @@ def list_search():
         query = request.args.get('search', type=str)
         total_of_products = 0
         for single_product in mongo.db.products.find({'name': {'$regex': query, '$options': 'i'}}):
-            if (single_product['available']):
+            if (single_product['available'] and single_product['stock'] >= 1):
                 total_of_products += 1
                 del single_product['description']
                 del single_product['updatedAt']
