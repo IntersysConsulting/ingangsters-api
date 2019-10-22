@@ -40,6 +40,7 @@ def get_products_paginated(total_items, page):
         stockSortingCriteria = request.args.get("sortStock", type=str)
         shippableFilterCriteria = request.args.get("shippable", type=str)
         availableFilterCriteria = request.args.get("available", type=str)
+        search = request.args.get("search", type=str)
         
         filterCriteria = {}
         if(availableFilterCriteria == "TRUE"):
@@ -51,6 +52,9 @@ def get_products_paginated(total_items, page):
         elif(shippableFilterCriteria == "FALSE"):
             filterCriteria['shippable'] = False
         
+        if(search):
+            filterCriteria['name'] = {'$regex': search, '$options': 'i'}
+
         sortingCriteria = []
         if(nameSortingCriteria == "ASCENDING"):
             sortingCriteria.append(('name', pymongo.ASCENDING))
@@ -74,6 +78,50 @@ def get_products_paginated(total_items, page):
             productList = productList.sort(sortingCriteria).skip(skip).limit(total_items)
         else:
             productList = productList.skip(skip).limit(total_items)
+        for single_product in productList:
+            del single_product['description']
+            del single_product['updatedAt']
+            del single_product['createdAt']
+            del single_product['sold']
+            single_product['_id'] = str(single_product['_id'])
+            products_array.append(single_product)
+        output['data']['products'] = products_array
+        return jsonify(output), 200
+
+
+@products.route('/products/filter', methods=['GET'])
+def get_filtered_products():
+    if request.method == 'GET':
+        priceSortingCriteria = request.args.get("sortPrice", type=str)
+        nameSortingCriteria = request.args.get("sortName", type=str)
+        shippableFilterCriteria = request.args.get("shippable", type=str)
+        search = request.args.get("search", type=str)
+            
+        filterCriteria = {}
+        if(shippableFilterCriteria == "TRUE"):
+            filterCriteria['shippable'] = True
+        elif(shippableFilterCriteria == "FALSE"):
+            filterCriteria['shippable'] = False
+        
+        if(search):
+            filterCriteria['name'] = {'$regex': search, '$options': 'i'}
+
+        sortingCriteria = []
+        if(nameSortingCriteria == "ASCENDING"):
+            sortingCriteria.append(('name', pymongo.ASCENDING))
+        elif(nameSortingCriteria == "DESCENDING"):
+            sortingCriteria.append(('name', pymongo.DESCENDING))
+        if(priceSortingCriteria == "ASCENDING"):
+            sortingCriteria.append(('price', pymongo.ASCENDING))
+        elif(priceSortingCriteria == "DESCENDING"):
+            sortingCriteria.append(('price', pymongo.DESCENDING))
+        
+        output = defaultObjectDataAsAnObject()
+        products_array = []
+        productList = mongo.db.products.find(filterCriteria).collation({ "locale": "en", "strength": 1, "caseLevel": False})
+        if(bool(sortingCriteria)):
+            productList = productList.sort(sortingCriteria)
+        
         for single_product in productList:
             del single_product['description']
             del single_product['updatedAt']
