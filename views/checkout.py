@@ -50,13 +50,16 @@ def charge():
 
                 else:
                     customer = customers.data[0]
+                    stripe.Customer.modify(customer.id,
+                    source= data["customer"]["source"]
+                    )
 
                 response = stripe.Charge.create(
                     amount=total,
                     currency="mxn",
                     description=data["description"],
                     customer=customer.id,
-                    source=data["customer"]["source"],
+                    source = data["customer"]["source"]
                 )
                 output["data"] = customer
                 output["response"] = response
@@ -65,7 +68,6 @@ def charge():
             except stripe.error.CardError as e:
                 output["satus"] = 500
                 output["message"] = e.error.message
-                print("Card Error")
             except stripe.error.InvalidRequestError as e:
                 # Invalid parameters were supplied to Stripe's API
                 output["satus"] = 401
@@ -75,13 +77,16 @@ def charge():
                 pass
             except stripe.error.InvalidRequestError as e:
                 # Invalid parameters were supplied to Stripe's API
+                output["satus"] = 401
+                output["message"] = e
                 pass
             except stripe.error.APIConnectionError as e:
                 # Network communication with Stripe failed
                 pass
             except stripe.error.StripeError as e:
                 # Display a very generic error to the user, and maybe send
-                # yourself an email
+                output["satus"] = 500
+                output["message"] = e
                 pass
             except Exception as e:
                 # Something else happened, completely unrelated to Stripe
