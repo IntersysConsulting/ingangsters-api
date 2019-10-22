@@ -41,37 +41,51 @@ def charge():
                     return jsonify(output), 400
 
             customers = stripe.Customer.list(email=data["customer"]["email"])
-
-            if len(customers.data) <= 0:
-                customer = stripe.Customer.create(
-                    email=data["customer"]["email"], source=data["customer"]["source"]
-                )
-
-            else:
-                customer = customers.data[0]
-
             try:
+                if len(customers.data) <= 0:
+                    customer = stripe.Customer.create(
+                        email=data["customer"]["email"],
+                        source=data["customer"]["source"],
+                    )
+
+                else:
+                    customer = customers.data[0]
+
                 response = stripe.Charge.create(
                     amount=total,
                     currency="mxn",
                     description=data["description"],
                     customer=customer.id,
+                    source=data["customer"]["source"],
                 )
                 output["data"] = customer
                 output["response"] = response
                 output["status"] = 200
+                pass
             except stripe.error.CardError as e:
                 output["satus"] = 500
                 output["message"] = e.error.message
+                print("Card Error")
             except stripe.error.InvalidRequestError as e:
                 # Invalid parameters were supplied to Stripe's API
                 output["satus"] = 401
                 output["message"] = e.error.message
+            except stripe.error.RateLimitError as e:
+                # Too many requests made to the API too quickly
+                pass
+            except stripe.error.InvalidRequestError as e:
+                # Invalid parameters were supplied to Stripe's API
+                pass
+            except stripe.error.APIConnectionError as e:
+                # Network communication with Stripe failed
+                pass
+            except stripe.error.StripeError as e:
+                # Display a very generic error to the user, and maybe send
+                # yourself an email
+                pass
             except Exception as e:
                 # Something else happened, completely unrelated to Stripe
                 output["satus"] = 500
-                output["message"] = e.error.message
-
-            pass
+                output["message"] = e
 
             return jsonify(output)
