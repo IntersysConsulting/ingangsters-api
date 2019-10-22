@@ -10,3 +10,4 @@ PyMongo[tls]
 Boto3
 Pillow
 python-dotenv
+stripe
