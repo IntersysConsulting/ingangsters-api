@@ -7,6 +7,7 @@ import datetime
 from dotenv import load_dotenv
 from os import getenv
 
+
 load_dotenv()
 
 
@@ -15,13 +16,14 @@ def create_app():
     # Creates the app.
     app = Flask(__name__)
     CORS(app)
-    app.config['MONGO_URI'] = getenv("MONGO_URI")
-    app.config['JWT_SECRET_KEY'] = getenv("JWT_SECRET_KEY")
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = getenv("JWT_ACCESS_TOKEN_EXPIRES")
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
+    app.config["MONGO_URI"] = getenv("MONGO_URI")
+    app.config["JWT_SECRET_KEY"] = getenv("JWT_SECRET_KEY")
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = getenv("JWT_ACCESS_TOKEN_EXPIRES")
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=1)
     jwt = JWTManager(app)
 
     from common.db import mongo
+
     mongo.init_app(app)
 
     from views.admins import admins
@@ -29,16 +31,18 @@ def create_app():
     from views.products import products
     from views.cart import cart
     from views.orders import orders
+    from views.checkout import checkout
 
     app.register_blueprint(admins)
     app.register_blueprint(users)
     app.register_blueprint(products)
     app.register_blueprint(cart)
     app.register_blueprint(orders)
+    app.register_blueprint(checkout)
 
-    @app.route('/')
+    @app.route("/")
     def home():
-        html = '<title>Hello ecommerce</title> <center><h1>Welcome</h1> <br> ecommerce Api Endpoint V2<center>'
+        html = "<title>Hello ecommerce</title> <center><h1>Welcome</h1> <br> ecommerce Api Endpoint V2<center>"
         return html, 200
 
     return app
