@@ -59,7 +59,7 @@ def charge():
                     currency="mxn",
                     description=data["description"],
                     customer=customer.id,
-                    source = data["customer"]["source"]
+                    source=data["customer"]["source"],
                 )
                 output["data"] = customer
                 output["response"] = response
