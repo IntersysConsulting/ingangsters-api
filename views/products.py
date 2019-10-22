@@ -115,11 +115,7 @@ def get_filtered_products():
             sortingCriteria.append(('price', pymongo.ASCENDING))
         elif(priceSortingCriteria == "DESCENDING"):
             sortingCriteria.append(('price', pymongo.DESCENDING))
-        
-        print("-----------------------------------")
-        print(filterCriteria)
-        print(sortingCriteria)
-
+            
         output = defaultObjectDataAsAnObject()
         products_array = []
         productList = mongo.db.products.find(filterCriteria).collation({ "locale": "en", "strength": 1, "caseLevel": False})
