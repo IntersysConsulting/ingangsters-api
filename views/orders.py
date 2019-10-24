@@ -22,6 +22,7 @@ def orders_create():
         data = validate_order_create_data(data)
         if data['ok']:
             data = data['data']
+            newArrayItems = []
 
             for single_item in data['items']:
                 single_product_searched = mongo.db.products.find_one(
@@ -32,6 +33,9 @@ def orders_create():
                 if (single_product_searched['stock'] < single_item['quantity']):
                     output['message'] = 'STOCK_MISMATCH'
                     return jsonify(output), 400
+                single_item['image'] = single_product_searched['image']
+                single_item['name'] = single_product_searched['name']
+                newArrayItems.append(single_item)
 
             user = {'userId': None, 'guest': None}
             if (data.get('userId')):
@@ -50,7 +54,7 @@ def orders_create():
                     return jsonify(output), 400
 
             order = {'user': user, 'shipping_address': data['shipping_address'],
-                     'billing_address': data['billing_address'], 'items': data['items'],
+                     'billing_address': data['billing_address'], 'items': newArrayItems,
                      'status': 'AWAITING_FULFILLMENT',
                      'createdAt': datetime.timestamp(datetime.now()), 'updatedAt': datetime.timestamp(datetime.now())
                      }
