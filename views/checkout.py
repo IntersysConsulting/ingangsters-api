@@ -63,13 +63,14 @@ def charge():
                 output["data"] = customer
                 output["response"] = response
                 output["status"] = 200
-                pass
+                return jsonify(output), 200
             except stripe.error.CardError as e:
-                output["satus"] = 500
+                output["status"] = 500
                 output["message"] = e.error.message
+                print(e)
             except stripe.error.InvalidRequestError as e:
                 # Invalid parameters were supplied to Stripe's API
-                output["satus"] = 401
+                output["status"] = 401
                 output["message"] = e.error.message
             except stripe.error.RateLimitError as e:
                 # Too many requests made to the API too quickly
@@ -82,12 +83,12 @@ def charge():
                 pass
             except stripe.error.StripeError as e:
                 # Display a very generic error to the user, and maybe send
-                output["satus"] = 500
+                output["status"] = 500
                 output["message"] = e
                 pass
             except Exception as e:
                 # Something else happened, completely unrelated to Stripe
-                output["satus"] = 500
+                output["status"] = 500
                 output["message"] = e
 
-            return jsonify(output)
+            return jsonify(output), output["status"]
