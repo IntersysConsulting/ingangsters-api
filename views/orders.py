@@ -78,11 +78,11 @@ def orders_create():
 def get_order_byId(order_id):
     if request.method == 'GET':
         output = defaultObject()
-        order = mongo.db.orders.find_one({'_id': order_id})
-        if(order):
+        try:
+            order = mongo.db.orders.find_one({'_id': ObjectId(order_id)})
             order['_id'] = str(order['_id'])
             output['data'].append(order)
             return jsonify(output), 200
-        else:
+        except:
             output['message'] = 'ORDER_NOT_FOUND'
             return jsonify(output), 404
