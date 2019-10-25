@@ -3659,7 +3659,7 @@
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
-									"        \"data\":{\"type\":\"object\"},",
+									"        \"data\":{\"type\":\"string\"},",
 									"        \"status\":{\"type\":\"boolean\"},",
 									"        \"message\":{\"type\":\"string\"}",
 									"    },",
@@ -4098,7 +4098,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b15cfd00-7669-49cc-8b38-df7788226d54",
+								"id": "fecb7bd2-3055-451a-8adf-c777d25b2218",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -4107,7 +4107,7 @@
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
-									"        \"data\":{\"type\":\"object\"},",
+									"        \"data\":{\"type\":\"string\"},",
 									"        \"status\":{\"type\":\"boolean\"},",
 									"        \"message\":{\"type\":\"string\"}",
 									"    },",
