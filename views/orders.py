@@ -72,3 +72,17 @@ def orders_create():
         else:
             output['message'] = 'BAD_REQUEST: {}'.format(data['message'])
             return jsonify(output), 400
+
+
+@orders.route('/order/<string:order_id>', methods=['GET'])
+def get_order_byId(order_id):
+    if request.method == 'GET':
+        output = defaultObject()
+        order = mongo.db.orders.find_one({'_id': order_id})
+        if(order):
+            order['_id'] = str(order['_id'])
+            output['data'].append(order)
+            return jsonify(output), 200
+        else:
+            output['message'] = 'ORDER_NOT_FOUND'
+            return jsonify(output), 404
