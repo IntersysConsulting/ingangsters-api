@@ -81,6 +81,10 @@ def get_order_byId(order_id):
         try:
             order = mongo.db.orders.find_one({'_id': ObjectId(order_id)})
             order['_id'] = str(order['_id'])
+            order['createdAt'] = convertTimestampToDateTime(
+                order['createdAt'])
+            order['updatedAt'] = convertTimestampToDateTime(
+                order['updatedAt'])
             output['data'] = order
             return jsonify(output), 200
         except:
