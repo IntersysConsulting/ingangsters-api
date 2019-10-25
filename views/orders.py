@@ -24,7 +24,9 @@ def orders_create():
             data = data['data']
             newArrayItems = []
 
+            total_price = 0
             for single_item in data['items']:
+                total_price += single_item['price'] * single_item['quantity']
                 single_product_searched = mongo.db.products.find_one(
                     {'_id': ObjectId(single_item['_id'])})
                 if (single_product_searched['price'] != single_item['price']):
@@ -37,14 +39,16 @@ def orders_create():
                 single_item['name'] = single_product_searched['name']
                 newArrayItems.append(single_item)
 
-            user = {'userId': None, 'guest': None}
+            user = {'user': None, 'guest': None}
             if (data.get('userId')):
                 search_user = mongo.db.users.find_one(
                     {'_id': ObjectId(data['userId'])})
                 if search_user:
-                    user['userId'] = data['userId']
+                    userData = {
+                        '_id': data['userId'], 'name': search_user['name'], 'email': search_user['email']}
+                    user['user'] = userData
                     cart_deleted = mongo.db.carts.delete_one(
-                        {'user': ObjectId(user['userId'])})
+                        {'user': ObjectId(data['userId'])})
             else:
                 if (data.get('name') and data.get('email')):
                     user['guest'] = {'name': data['name'],
@@ -53,11 +57,8 @@ def orders_create():
                     output['message'] = 'BAD_REQUEST'
                     return jsonify(output), 400
 
-            order = {'user': user, 'shipping_address': data['shipping_address'],
-                     'billing_address': data['billing_address'], 'items': newArrayItems,
-                     'status': 'AWAITING_FULFILLMENT',
-                     'createdAt': datetime.timestamp(datetime.now()), 'updatedAt': datetime.timestamp(datetime.now())
-                     }
+            order = {'user': user, 'shipping_address': data['shipping_address'], 'billing_address': data['billing_address'], 'items': newArrayItems,
+                     'total': total_price, 'status': 'AWAITING_FULFILLMENT', 'createdAt': datetime.timestamp(datetime.now()), 'updatedAt': datetime.timestamp(datetime.now())}
 
             # Update stock
             for single_item in data['items']:
@@ -69,7 +70,8 @@ def orders_create():
                 updated_product = mongo.db.products.update_one(
                     {'_id': ObjectId(single_item['_id'])}, {'$set': {'stock': newStock}})
 
-            mongo.db.orders.insert_one(order)
+            new_order = mongo.db.orders.insert_one(order)
+            output['data'] = str(new_order.inserted_id)
             output['status'] = True
             output['message'] = 'CORRECT'
             return jsonify(output), 200

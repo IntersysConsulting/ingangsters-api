@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "94676a16-3e8f-4d34-a78c-22f978aeee37",
+		"_postman_id": "1990aaaa-cad2-49e2-8031-72f50b9a57e3",
 		"name": "ECOMMERCE POSITIVE TESTS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1299,62 +1299,6 @@
 							},
 							"response": [
 								{
-									"name": "GET PRODUCTS SEARCH",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "http://127.0.0.1:5000/admin/products/search?search=xbox",
-											"protocol": "http",
-											"host": [
-												"127",
-												"0",
-												"0",
-												"1"
-											],
-											"port": "5000",
-											"path": [
-												"admin",
-												"products",
-												"search"
-											],
-											"query": [
-												{
-													"key": "search",
-													"value": "xbox"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "1754"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										},
-										{
-											"key": "Server",
-											"value": "Werkzeug/0.15.5 Python/3.7.4"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 11 Oct 2019 15:10:28 GMT"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"data\": [\n        {\n            \"_id\": \"5d79198822b845fd1e662d2a\",\n            \"available\": true,\n            \"createdAt\": 1568217480.00424,\n            \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\n            \"image\": \"https://gdl-intersys-jgarcia-test.s3-us-west-1.amazonaws.com/images/HNsQeXA862blFmfkKJG33t2ryqbHqH40S9Rmam5L.png\",\n            \"name\": \"Control Alámbrico para Xbox One - Standard Edition Rojo\",\n            \"price\": 40000,\n            \"shippable\": true,\n            \"sold\": 0,\n            \"stock\": 50,\n            \"updatedAt\": 1569534568.053408\n        },\n        {\n            \"_id\": \"5d97784e2ef05bc9658cbca5\",\n            \"available\": true,\n            \"createdAt\": 1570207822.987006,\n            \"description\": \"Disfruta de juegos en modo solo digital con la consola Xbox One S All-Digital Edition y crea una biblioteca de juegos digitales que te acompaña vayas donde vayas y está disponible en la nube. Llévate tus partidas guardadas en la nube y disfruta de la capacidad de reservar y preinstalar los juegos disponibles próximamente para que puedas jugar a ellos en el momento de su lanzamiento. Amplía tus opciones con Xbox Game Pass, descubriendo y descargando más de 100 juegos fantásticos (la suscripción se vende por separado).\",\n            \"image\": \"https://gdl-intersys-jgarcia-test.s3-us-west-1.amazonaws.com/images/NqXNfEAjqQADI959kKJh0Aiv8wgqFWCTfyaFMSa1.jpg\",\n            \"name\": \"Xbox One S All-Digital\",\n            \"price\": 800000,\n            \"shippable\": true,\n            \"sold\": 0,\n            \"stock\": 30,\n            \"updatedAt\": 1570208910.674981\n        }\n    ],\n    \"message\": \"\",\n    \"status\": false\n}"
-								},
-								{
 									"name": "NOT FOUND",
 									"originalRequest": {
 										"method": "GET",
@@ -1409,6 +1353,62 @@
 									],
 									"cookie": [],
 									"body": "{\n    \"data\": [],\n    \"message\": \"PRODUCT_NOT_FOUND\",\n    \"status\": false\n}"
+								},
+								{
+									"name": "GET PRODUCTS SEARCH",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://127.0.0.1:5000/admin/products/search?search=xbox",
+											"protocol": "http",
+											"host": [
+												"127",
+												"0",
+												"0",
+												"1"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"products",
+												"search"
+											],
+											"query": [
+												{
+													"key": "search",
+													"value": "xbox"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1754"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.15.5 Python/3.7.4"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 11 Oct 2019 15:10:28 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"_id\": \"5d79198822b845fd1e662d2a\",\n            \"available\": true,\n            \"createdAt\": 1568217480.00424,\n            \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\n            \"image\": \"https://gdl-intersys-jgarcia-test.s3-us-west-1.amazonaws.com/images/HNsQeXA862blFmfkKJG33t2ryqbHqH40S9Rmam5L.png\",\n            \"name\": \"Control Alámbrico para Xbox One - Standard Edition Rojo\",\n            \"price\": 40000,\n            \"shippable\": true,\n            \"sold\": 0,\n            \"stock\": 50,\n            \"updatedAt\": 1569534568.053408\n        },\n        {\n            \"_id\": \"5d97784e2ef05bc9658cbca5\",\n            \"available\": true,\n            \"createdAt\": 1570207822.987006,\n            \"description\": \"Disfruta de juegos en modo solo digital con la consola Xbox One S All-Digital Edition y crea una biblioteca de juegos digitales que te acompaña vayas donde vayas y está disponible en la nube. Llévate tus partidas guardadas en la nube y disfruta de la capacidad de reservar y preinstalar los juegos disponibles próximamente para que puedas jugar a ellos en el momento de su lanzamiento. Amplía tus opciones con Xbox Game Pass, descubriendo y descargando más de 100 juegos fantásticos (la suscripción se vende por separado).\",\n            \"image\": \"https://gdl-intersys-jgarcia-test.s3-us-west-1.amazonaws.com/images/NqXNfEAjqQADI959kKJh0Aiv8wgqFWCTfyaFMSa1.jpg\",\n            \"name\": \"Xbox One S All-Digital\",\n            \"price\": 800000,\n            \"shippable\": true,\n            \"sold\": 0,\n            \"stock\": 30,\n            \"updatedAt\": 1570208910.674981\n        }\n    ],\n    \"message\": \"\",\n    \"status\": false\n}"
 								}
 							]
 						},
@@ -1495,62 +1495,6 @@
 							},
 							"response": [
 								{
-									"name": "USER_NOT_FOUND",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "http://127.0.0.1:5000/admin/users/search?search=noexists",
-											"protocol": "http",
-											"host": [
-												"127",
-												"0",
-												"0",
-												"1"
-											],
-											"port": "5000",
-											"path": [
-												"admin",
-												"users",
-												"search"
-											],
-											"query": [
-												{
-													"key": "search",
-													"value": "noexists"
-												}
-											]
-										}
-									},
-									"status": "NOT FOUND",
-									"code": 404,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "Content-Length",
-											"value": "54"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										},
-										{
-											"key": "Server",
-											"value": "Werkzeug/0.15.5 Python/3.7.4"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 11 Oct 2019 15:20:53 GMT"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"data\": [],\n    \"message\": \"USER_NOT_FOUND\",\n    \"status\": false\n}"
-								},
-								{
 									"name": "GET USERS SEARCH",
 									"originalRequest": {
 										"method": "GET",
@@ -1605,6 +1549,62 @@
 									],
 									"cookie": [],
 									"body": "{\n    \"data\": [\n        {\n            \"_id\": \"5d93ceda604aed0dadac8717\",\n            \"createdAt\": 1569967834.351874,\n            \"email\": \"mhernandez@intersysconsulting.com\",\n            \"name\": \"Martin Hernandez\",\n            \"updatedAt\": 1569967834.351886\n        },\n        {\n            \"_id\": \"5d9e0781c089c978d00c8cad\",\n            \"createdAt\": 1570637697.415879,\n            \"email\": \"srobles@intersysconsulting.com\",\n            \"name\": \"Sofia Robles Sandoval\",\n            \"updatedAt\": 1570637697.415879\n        },\n        {\n            \"_id\": \"5d9e64defd09530b91111d5a\",\n            \"createdAt\": 1570661598.076188,\n            \"email\": \"jgarcia@intersysconsulting.com\",\n            \"name\": \"Jorge Garcia\",\n            \"updatedAt\": 1570661598.0762\n        }\n    ],\n    \"message\": \"\",\n    \"status\": false\n}"
+								},
+								{
+									"name": "USER_NOT_FOUND",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://127.0.0.1:5000/admin/users/search?search=noexists",
+											"protocol": "http",
+											"host": [
+												"127",
+												"0",
+												"0",
+												"1"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"users",
+												"search"
+											],
+											"query": [
+												{
+													"key": "search",
+													"value": "noexists"
+												}
+											]
+										}
+									},
+									"status": "NOT FOUND",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Server",
+											"value": "Werkzeug/0.15.5 Python/3.7.4"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 11 Oct 2019 15:20:53 GMT"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [],\n    \"message\": \"USER_NOT_FOUND\",\n    \"status\": false\n}"
 								}
 							]
 						},
@@ -2855,70 +2855,6 @@
 					},
 					"response": [
 						{
-							"name": "PRICE_MISMATCH",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://127.0.0.1:5000/cart",
-									"protocol": "http",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"cart"
-									]
-								}
-							},
-							"status": "NOT FOUND",
-							"code": 404,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "54"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Server",
-									"value": "Werkzeug/0.15.5 Python/3.7.4"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
-						},
-						{
 							"name": "CART_UPDATED",
 							"originalRequest": {
 								"method": "POST",
@@ -3047,7 +2983,7 @@
 							"body": "{\n    \"data\": [],\n    \"message\": \"NO_ENOUGH_STOCK\",\n    \"status\": false\n}"
 						},
 						{
-							"name": "CART_CREATED",
+							"name": "PRODUCT_NOT_FOUND",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -3060,7 +2996,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"items\":[\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\r\n\t\t\t\"price\":600000,\r\n\t\t\t\"quantity\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\r\n\t\t\t\"price\":300000,\r\n\t\t\t\"quantity\":3\r\n\t\t}\r\n\t]\r\n}",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84026d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3082,8 +3018,8 @@
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
+							"status": "NOT FOUND",
+							"code": 404,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
@@ -3092,7 +3028,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "51"
+									"value": "57"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -3104,11 +3040,11 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 25 Sep 2019 14:26:37 GMT"
+									"value": "Tue, 24 Sep 2019 18:28:39 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"CART_CREATED\",\n    \"status\": true\n}"
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRODUCT_NOT_FOUND\",\n    \"status\": false\n}"
 						},
 						{
 							"name": "BAD_REQUEST",
@@ -3175,7 +3111,7 @@
 							"body": "{\n    \"data\": [],\n    \"message\": \"BAD_REQUEST: 'items' is a required property\\n\\nFailed validating 'required' in schema:\\n    {'properties': {'items': {'price': {'type': 'number'},\\n                              'product_id': {'type': 'string'},\\n                              'quantity': {'type': 'number'},\\n                              'type': 'array'},\\n                    'user': {'type': 'string'}},\\n     'required': ['items'],\\n     'type': 'object'}\\n\\nOn instance:\\n    {}\",\n    \"status\": false\n}"
 						},
 						{
-							"name": "PRODUCT_NOT_FOUND",
+							"name": "CART_CREATED",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -3188,7 +3124,71 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84026d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"raw": "{\r\n\t\"items\":[\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\r\n\t\t\t\"price\":600000,\r\n\t\t\t\"quantity\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\r\n\t\t\t\"price\":300000,\r\n\t\t\t\"quantity\":3\r\n\t\t}\r\n\t]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 Sep 2019 14:26:37 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"CART_CREATED\",\n    \"status\": true\n}"
+						},
+						{
+							"name": "PRICE_MISMATCH",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3220,7 +3220,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "57"
+									"value": "54"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -3232,11 +3232,11 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 24 Sep 2019 18:28:39 GMT"
+									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"PRODUCT_NOT_FOUND\",\n    \"status\": false\n}"
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
 						}
 					]
 				},
@@ -3327,61 +3327,6 @@
 					},
 					"response": [
 						{
-							"name": "GET CART",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://127.0.0.1:5000/cart",
-									"protocol": "http",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"cart"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "282"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Server",
-									"value": "Werkzeug/0.15.5 Python/3.7.4"
-								},
-								{
-									"key": "Date",
-									"value": "Wed, 25 Sep 2019 14:27:47 GMT"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"_id\": \"5d8a3f0def9e8d24a93016d7\",\n        \"createdAt\": 1569341197.783967,\n        \"items\": [\n            {\n                \"price\": 600000,\n                \"product_id\": \"5d7676f35db4e862cc84027d\",\n                \"quantity\": 1\n            },\n            {\n                \"price\": 300000,\n                \"product_id\": \"5d76778d5db4e862cc84027e\",\n                \"quantity\": 5\n            }\n        ],\n        \"updatedAt\": 1569349527.215453\n    },\n    \"message\": \"\",\n    \"status\": false\n}"
-						},
-						{
 							"name": "EMPTY_CART",
 							"originalRequest": {
 								"method": "GET",
@@ -3435,6 +3380,61 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"data\": [],\n    \"message\": \"EMPTY_CART\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "GET CART",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "282"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 Sep 2019 14:27:47 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"_id\": \"5d8a3f0def9e8d24a93016d7\",\n        \"createdAt\": 1569341197.783967,\n        \"items\": [\n            {\n                \"price\": 600000,\n                \"product_id\": \"5d7676f35db4e862cc84027d\",\n                \"quantity\": 1\n            },\n            {\n                \"price\": 300000,\n                \"product_id\": \"5d76778d5db4e862cc84027e\",\n                \"quantity\": 5\n            }\n        ],\n        \"updatedAt\": 1569349527.215453\n    },\n    \"message\": \"\",\n    \"status\": false\n}"
 						}
 					]
 				},
@@ -3497,92 +3497,6 @@
 					},
 					"response": [
 						{
-							"name": "Valid _ids",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"_ids\":[\n\t\t\"5d7be66ce49153c53487fb05\",\n\t\t\"5d79191222b845fd1e662d28\"\n\t]\n}"
-								},
-								"url": {
-									"raw": "{{url}}/cart/summary",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cart",
-										"summary"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "html",
-							"header": [
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Content-Length",
-									"value": "232"
-								},
-								{
-									"key": "Content-Type",
-									"value": "text/html"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 27 Sep 2019 15:40:31 GMT"
-								},
-								{
-									"key": "Server",
-									"value": "waitress"
-								}
-							],
-							"cookie": [],
-							"body": "{\r\n  \"data\": {\r\n    \"5d79191222b845fd1e662d28\": {\r\n      \"image\": \"https://images-na.ssl-images-amazon.com/images/I/71yqkmEkGzL._SL1500_.jpg\",\r\n      \"name\": \" Bose SoundLink Micro - Altavoz Bluetooth Resistente al Agua, Negro (Black) \",\r\n      \"price\": 250000,\r\n      \"stock\": 1\r\n    },\r\n    \"5d7be66ce49153c53487fb05\": {\r\n      \"image\": \"https://images-na.ssl-images-amazon.com/images/I/51Z1jkudQGL._SL1000_.jpg\",\r\n      \"name\": \"Xiaomi Audífonos Bluetooth Redmi Airdots \",\r\n      \"price\": 58900,\r\n      \"stock\": 1\r\n    }\r\n  },\r\n  \"message\": \"FETCHED\",\r\n  \"status\": true\r\n}"
-						},
-						{
-							"name": "Mixed valid and invalid _ids",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"_ids\":[\n\t\t\"NOT_AN_ID\",\n\t\t\"5d7918e122b845fd1e662d27\",\n\t\t\"5d7676f35db4e862cc84027d\"\n\t]\n}"
-								},
-								"url": {
-									"raw": "{{url}}/cart/summary",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cart",
-										"summary"
-									]
-								}
-							},
-							"code": 200,
-							"_postman_previewlanguage": "Text",
-							"header": [],
-							"cookie": [],
-							"body": "{\r\n  \"data\": {\r\n    \"5d7676f35db4e862cc84027d\": {\r\n      \"image\": \"https://i.kinja-img.com/gawker-media/image/upload/s--m6F4tJ-n--/c_scale,f_auto,fl_progressive,q_80,w_800/imfz8sq2jjpl19apqhvb.jpg\",\r\n      \"name\": \"Nintendo Switch\",\r\n      \"price\": 600000,\r\n      \"stock\": 1\r\n    },\r\n    \"5d7918e122b845fd1e662d27\": {\r\n      \"image\": \"https://doto.com.mx/media/catalog/product/cache/926507dc7f93631a094422215b778fe0/x/i/xiaomi-mia3-gris1-dotomexico.jpg\",\r\n      \"name\": \" Xiaomi Mi A3 128Gb 4Gb Ram -Gris\",\r\n      \"price\": 500000,\r\n      \"stock\": 1\r\n    },\r\n    \"NOT_AN_ID\": \"ERROR: This product does not exist\"\r\n  },\r\n  \"message\": \"FETCHED\",\r\n  \"status\": true\r\n}"
-						},
-						{
 							"name": "Invalid JSON body",
 							"originalRequest": {
 								"method": "POST",
@@ -3635,6 +3549,92 @@
 							],
 							"cookie": [],
 							"body": "{\r\n  \"data\": [],\r\n  \"message\": \"BAD_REQUEST: '_ids' is a required property\\n\\nFailed validating 'required' in schema:\\n    {'properties': {'_ids': {'items': {'type': 'string'}, 'type': 'array'}},\\n     'required': ['_ids'],\\n     'type': 'object'}\\n\\nOn instance:\\n    {'gives': 'an error', 'not': 'a correct format'}\",\r\n  \"status\": false\r\n}"
+						},
+						{
+							"name": "Mixed valid and invalid _ids",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"_ids\":[\n\t\t\"NOT_AN_ID\",\n\t\t\"5d7918e122b845fd1e662d27\",\n\t\t\"5d7676f35db4e862cc84027d\"\n\t]\n}"
+								},
+								"url": {
+									"raw": "{{url}}/cart/summary",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cart",
+										"summary"
+									]
+								}
+							},
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n  \"data\": {\r\n    \"5d7676f35db4e862cc84027d\": {\r\n      \"image\": \"https://i.kinja-img.com/gawker-media/image/upload/s--m6F4tJ-n--/c_scale,f_auto,fl_progressive,q_80,w_800/imfz8sq2jjpl19apqhvb.jpg\",\r\n      \"name\": \"Nintendo Switch\",\r\n      \"price\": 600000,\r\n      \"stock\": 1\r\n    },\r\n    \"5d7918e122b845fd1e662d27\": {\r\n      \"image\": \"https://doto.com.mx/media/catalog/product/cache/926507dc7f93631a094422215b778fe0/x/i/xiaomi-mia3-gris1-dotomexico.jpg\",\r\n      \"name\": \" Xiaomi Mi A3 128Gb 4Gb Ram -Gris\",\r\n      \"price\": 500000,\r\n      \"stock\": 1\r\n    },\r\n    \"NOT_AN_ID\": \"ERROR: This product does not exist\"\r\n  },\r\n  \"message\": \"FETCHED\",\r\n  \"status\": true\r\n}"
+						},
+						{
+							"name": "Valid _ids",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"_ids\":[\n\t\t\"5d7be66ce49153c53487fb05\",\n\t\t\"5d79191222b845fd1e662d28\"\n\t]\n}"
+								},
+								"url": {
+									"raw": "{{url}}/cart/summary",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cart",
+										"summary"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "232"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 27 Sep 2019 15:40:31 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "waitress"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n  \"data\": {\r\n    \"5d79191222b845fd1e662d28\": {\r\n      \"image\": \"https://images-na.ssl-images-amazon.com/images/I/71yqkmEkGzL._SL1500_.jpg\",\r\n      \"name\": \" Bose SoundLink Micro - Altavoz Bluetooth Resistente al Agua, Negro (Black) \",\r\n      \"price\": 250000,\r\n      \"stock\": 1\r\n    },\r\n    \"5d7be66ce49153c53487fb05\": {\r\n      \"image\": \"https://images-na.ssl-images-amazon.com/images/I/51Z1jkudQGL._SL1000_.jpg\",\r\n      \"name\": \"Xiaomi Audífonos Bluetooth Redmi Airdots \",\r\n      \"price\": 58900,\r\n      \"stock\": 1\r\n    }\r\n  },\r\n  \"message\": \"FETCHED\",\r\n  \"status\": true\r\n}"
 						}
 					]
 				}
@@ -3659,7 +3659,7 @@
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
-									"        \"data\":{\"type\":\"array\"},",
+									"        \"data\":{\"type\":\"string\"},",
 									"        \"status\":{\"type\":\"boolean\"},",
 									"        \"message\":{\"type\":\"string\"}",
 									"    },",
@@ -3706,6 +3706,134 @@
 						"description": "If cart doesn't exists CREATES cart, if it does then it UPDATES"
 					},
 					"response": [
+						{
+							"name": "CART_CREATED",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"items\":[\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\r\n\t\t\t\"price\":600000,\r\n\t\t\t\"quantity\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\r\n\t\t\t\"price\":300000,\r\n\t\t\t\"quantity\":3\r\n\t\t}\r\n\t]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 Sep 2019 14:26:37 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"CART_CREATED\",\n    \"status\": true\n}"
+						},
+						{
+							"name": "PRICE_MISMATCH",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
+						},
 						{
 							"name": "PRODUCT_NOT_FOUND",
 							"originalRequest": {
@@ -3835,198 +3963,6 @@
 							"body": "{\n    \"data\": [],\n    \"message\": \"BAD_REQUEST: 'items' is a required property\\n\\nFailed validating 'required' in schema:\\n    {'properties': {'items': {'price': {'type': 'number'},\\n                              'product_id': {'type': 'string'},\\n                              'quantity': {'type': 'number'},\\n                              'type': 'array'},\\n                    'user': {'type': 'string'}},\\n     'required': ['items'],\\n     'type': 'object'}\\n\\nOn instance:\\n    {}\",\n    \"status\": false\n}"
 						},
 						{
-							"name": "NO_ENOUGH_STOCK",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":100\n\t\t}\n\t]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://127.0.0.1:5000/cart",
-									"protocol": "http",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"cart"
-									]
-								}
-							},
-							"status": "NOT FOUND",
-							"code": 404,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "55"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Server",
-									"value": "Werkzeug/0.15.5 Python/3.7.4"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 24 Sep 2019 18:20:14 GMT"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"NO_ENOUGH_STOCK\",\n    \"status\": false\n}"
-						},
-						{
-							"name": "PRICE_MISMATCH",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://127.0.0.1:5000/cart",
-									"protocol": "http",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"cart"
-									]
-								}
-							},
-							"status": "NOT FOUND",
-							"code": 404,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "54"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Server",
-									"value": "Werkzeug/0.15.5 Python/3.7.4"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
-						},
-						{
-							"name": "CART_CREATED",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n\t\"items\":[\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\r\n\t\t\t\"price\":600000,\r\n\t\t\t\"quantity\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\r\n\t\t\t\"price\":300000,\r\n\t\t\t\"quantity\":3\r\n\t\t}\r\n\t]\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://127.0.0.1:5000/cart",
-									"protocol": "http",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"cart"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "51"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Server",
-									"value": "Werkzeug/0.15.5 Python/3.7.4"
-								},
-								{
-									"key": "Date",
-									"value": "Wed, 25 Sep 2019 14:26:37 GMT"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"CART_CREATED\",\n    \"status\": true\n}"
-						},
-						{
 							"name": "CART_UPDATED",
 							"originalRequest": {
 								"method": "POST",
@@ -4089,6 +4025,70 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"data\": [],\n    \"message\": \"CART_UPDATED\",\n    \"status\": true\n}"
+						},
+						{
+							"name": "NO_ENOUGH_STOCK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":100\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:20:14 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"NO_ENOUGH_STOCK\",\n    \"status\": false\n}"
 						}
 					]
 				},
@@ -4098,7 +4098,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b15cfd00-7669-49cc-8b38-df7788226d54",
+								"id": "fecb7bd2-3055-451a-8adf-c777d25b2218",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -4107,7 +4107,7 @@
 									"var standardScheme = {",
 									"    \"type\":\"object\",",
 									"    \"properties\":{",
-									"        \"data\":{\"type\":\"array\"},",
+									"        \"data\":{\"type\":\"string\"},",
 									"        \"status\":{\"type\":\"boolean\"},",
 									"        \"message\":{\"type\":\"string\"}",
 									"    },",
@@ -4219,70 +4219,6 @@
 							"body": "{\n    \"data\": [],\n    \"message\": \"CART_CREATED\",\n    \"status\": true\n}"
 						},
 						{
-							"name": "PRICE_MISMATCH",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://127.0.0.1:5000/cart",
-									"protocol": "http",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "5000",
-									"path": [
-										"cart"
-									]
-								}
-							},
-							"status": "NOT FOUND",
-							"code": 404,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Content-Length",
-									"value": "54"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								},
-								{
-									"key": "Server",
-									"value": "Werkzeug/0.15.5 Python/3.7.4"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
-						},
-						{
 							"name": "BAD_REQUEST",
 							"originalRequest": {
 								"method": "POST",
@@ -4347,7 +4283,7 @@
 							"body": "{\n    \"data\": [],\n    \"message\": \"BAD_REQUEST: 'items' is a required property\\n\\nFailed validating 'required' in schema:\\n    {'properties': {'items': {'price': {'type': 'number'},\\n                              'product_id': {'type': 'string'},\\n                              'quantity': {'type': 'number'},\\n                              'type': 'array'},\\n                    'user': {'type': 'string'}},\\n     'required': ['items'],\\n     'type': 'object'}\\n\\nOn instance:\\n    {}\",\n    \"status\": false\n}"
 						},
 						{
-							"name": "PRODUCT_NOT_FOUND",
+							"name": "NO_ENOUGH_STOCK",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -4360,7 +4296,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84026d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":100\n\t\t}\n\t]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4392,7 +4328,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "57"
+									"value": "55"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -4404,11 +4340,11 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 24 Sep 2019 18:28:39 GMT"
+									"value": "Tue, 24 Sep 2019 18:20:14 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"PRODUCT_NOT_FOUND\",\n    \"status\": false\n}"
+							"body": "{\n    \"data\": [],\n    \"message\": \"NO_ENOUGH_STOCK\",\n    \"status\": false\n}"
 						},
 						{
 							"name": "CART_UPDATED",
@@ -4475,7 +4411,7 @@
 							"body": "{\n    \"data\": [],\n    \"message\": \"CART_UPDATED\",\n    \"status\": true\n}"
 						},
 						{
-							"name": "NO_ENOUGH_STOCK",
+							"name": "PRICE_MISMATCH",
 							"originalRequest": {
 								"method": "POST",
 								"header": [
@@ -4488,7 +4424,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":100\n\t\t}\n\t]\n}",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84027d\",\n\t\t\t\"price\":9,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4520,7 +4456,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "55"
+									"value": "54"
 								},
 								{
 									"key": "Access-Control-Allow-Origin",
@@ -4532,11 +4468,75 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 24 Sep 2019 18:20:14 GMT"
+									"value": "Tue, 24 Sep 2019 18:27:50 GMT"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"NO_ENOUGH_STOCK\",\n    \"status\": false\n}"
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRICE_MISMATCH\",\n    \"status\": false\n}"
+						},
+						{
+							"name": "PRODUCT_NOT_FOUND",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"items\":[\n\t\t{\n\t\t\t\"product_id\":\"5d7676f35db4e862cc84026d\",\n\t\t\t\"price\":600000,\n\t\t\t\"quantity\":1\n\t\t},\n\t\t{\n\t\t\t\"product_id\":\"5d76778d5db4e862cc84027e\",\n\t\t\t\"price\":300000,\n\t\t\t\"quantity\":5\n\t\t}\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/cart",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "57"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.15.5 Python/3.7.4"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Sep 2019 18:28:39 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [],\n    \"message\": \"PRODUCT_NOT_FOUND\",\n    \"status\": false\n}"
 						}
 					]
 				}
