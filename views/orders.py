@@ -96,3 +96,75 @@ def get_order_byId(order_id):
         except:
             output['message'] = 'ORDER_NOT_FOUND'
             return jsonify(output), 404
+
+@orders.route('/orders/list/<int:total_items>/<int:page>', methods=['GET'])
+@jwt_required
+def getPaginatedOrders(total_items, page):
+    if request.method == 'GET':
+        output = defaultObjectDataAsAnObject()
+        current_user = get_jwt_identity()
+        search_current_admin = mongo.db.admins.find_one(
+            {'email': current_user['email']})
+        if (search_current_admin):
+            output['data']['total_orders'] = mongo.db.orders.count_documents({})
+            ordersArray = []
+            skip = (total_items * page) - total_items
+            ordersList = mongo.db.orders.find().skip(skip).limit(total_items)
+            for order in ordersList:
+                del order['createdAt']
+                del order['user']
+                del order['shipping_address']
+                del order['billing_address']
+                order['_id'] = str(order['_id'])
+                orderTotalDue = 0 
+                for purchasedItem in order['items']:
+                    orderTotalDue = orderTotalDue + (purchasedItem['price'] * purchasedItem['quantity'])
+                order['total'] = orderTotalDue   
+                order['date'] = datetime.fromtimestamp(int(order['updatedAt'])).strftime("%d/%m/%Y, %H:%M:%S")
+                del order['items']
+                order['next_status'] = calculateFurtherStatus(order['status'])
+                ordersArray.append(order)
+            output['data']['orders'] = ordersArray
+            return jsonify(output),200
+        else:
+            output['message'] = "FORBIDDEN"
+            output['status'] = False
+            return jsonify(output), 403 
+        
+        
+@orders.route('/orders/change/<string:orderId>/to/<string:newStatus>', methods=['POST'])
+@jwt_required
+def changeOrderStatus(orderId, newStatus):
+    if request.method == 'POST':
+        output = defaultObjectDataAsAnObject()
+        current_user = get_jwt_identity()
+        search_current_admin = mongo.db.admins.find_one(
+            {'email': current_user['email']})
+        if (search_current_admin):
+            data = request.get_json() or  {"force": False}
+            useForce = data.get('force', False)
+            targetOrder = mongo.db.orders.find_one({"_id": ObjectId(orderId)})
+
+            if(targetOrder):
+                currentStatus = targetOrder['status']
+                allowedNext = calculateFurtherStatus(currentStatus)
+                if(newStatus in allowedNext or useForce):
+                    updated_order = mongo.db.orders.update_one({'_id': ObjectId(targetOrder['_id'])}, {"$set": {
+                        "status": newStatus
+                    }})
+                    if(updated_order.matched_count + updated_order.modified_count):
+                        output['status'] = True
+                        output['message'] = 'UPDATED_CORRECTLY'
+                        return jsonify(output), 200
+                else:
+                    output['message'] = "INVALID_NEW_STATUS"
+                    output['status'] = False
+                    return jsonify(output), 400 
+            else:
+                output['message'] = "NOT_FOUND"
+                output['status'] = False
+                return jsonify(output), 404 
+        else:
+            output['message'] = "FORBIDDEN"
+            output['status'] = False
+            return jsonify(output), 403 
