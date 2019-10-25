@@ -81,7 +81,7 @@ def get_order_byId(order_id):
         try:
             order = mongo.db.orders.find_one({'_id': ObjectId(order_id)})
             order['_id'] = str(order['_id'])
-            output['data'].append(order)
+            output['data'] = order
             return jsonify(output), 200
         except:
             output['message'] = 'ORDER_NOT_FOUND'
