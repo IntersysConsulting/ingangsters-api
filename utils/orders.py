@@ -1,27 +1,8 @@
-from flask import Flask, jsonify
-from datetime import datetime
-import json
-import re
-
-
-def convertTimestampToDateTime(timestamp):
-    return datetime.fromtimestamp(int(re.findall("\d+", str(timestamp))[0]))
-
-
-def defaultObject():
-    output = '{"status":false,"message":"","data":[]}'
-    return json.loads(output)
-
-
-def defaultObjectDataAsAnObject():
-    output = '{"status":false,"message":"","data":{}}'
-    return json.loads(output)
-
 def calculateFurtherStatus(currentStatus):
     switcher = {
         "PENDING": [],
         "AWAITING_PAYMENT": [],
-        "AWAITING_FULFILLMENT": [
+        "AWAITING_FULFIMENT": [
             "MANUAL_VERIFICATION_REQUIRED",
             "REFUNDED",
             "PARTIALLY_REFUNDED",
@@ -35,6 +16,6 @@ def calculateFurtherStatus(currentStatus):
         "SHIPPED": ["COMPLETED"],
         "PARTIALLY_SHIPPED": ["COMPLETED"],
         "AWAITING_PICKUP": ["COMPLETED"],
-        "MANUAL_VERIFICATION_REQUIRED": ["AWAITING_FULFILLMENT"]
+        "MANUAL_VERIFICATION_REQUIRED": ["AWAITING_FULFIMENT"]
     }
     return switcher.get(currentStatus, [])
