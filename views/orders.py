@@ -10,7 +10,6 @@ from common.utils import *
 from jsonschemas.orders import validate_order_create_data
 from datetime import datetime
 from bson import ObjectId
-import pymongo
 
 orders = Blueprint('orders', __name__)
 
