@@ -10,6 +10,7 @@ from common.utils import *
 from jsonschemas.orders import validate_order_create_data
 from datetime import datetime
 from bson import ObjectId
+import pymongo
 
 orders = Blueprint('orders', __name__)
 
@@ -105,11 +106,22 @@ def getPaginatedOrders(total_items, page):
         current_user = get_jwt_identity()
         search_current_admin = mongo.db.admins.find_one(
             {'email': current_user['email']})
+        targetStatus = request.args.get("status", type=str)
+        orderByDate = request.args.get("dateOrder", type=int)
+        filter = {}
+        orderCriteria = []
+        if(targetStatus):
+            filter['status'] = targetStatus
+        if(orderByDate and orderByDate != 0):
+            orderCriteria.append(('createdAt',orderByDate))
         if (search_current_admin):
-            output['data']['total_orders'] = mongo.db.orders.count_documents({})
+            output['data']['total_orders'] = mongo.db.orders.count_documents(filter)
             ordersArray = []
             skip = (total_items * page) - total_items
-            ordersList = mongo.db.orders.find().skip(skip).limit(total_items)
+            ordersList = mongo.db.orders.find(filter)
+            if(bool(orderCriteria)):
+                ordersList = ordersList.sort(orderCriteria)
+            ordersList = ordersList.skip(skip).limit(total_items)
             for order in ordersList:
                 del order['createdAt']
                 del order['user']
@@ -148,9 +160,11 @@ def changeOrderStatus(orderId, newStatus):
             if(targetOrder):
                 currentStatus = targetOrder['status']
                 allowedNext = calculateFurtherStatus(currentStatus)
-                if(newStatus in allowedNext or useForce):
+                possibleStatus = getStatusList()
+                if(newStatus in possibleStatus and (newStatus in allowedNext or useForce)):
                     updated_order = mongo.db.orders.update_one({'_id': ObjectId(targetOrder['_id'])}, {"$set": {
-                        "status": newStatus
+                        "status": newStatus,
+                        "updatedAt": datetime.now().timestamp()
                     }})
                     if(updated_order.matched_count + updated_order.modified_count):
                         output['status'] = True
@@ -168,3 +182,18 @@ def changeOrderStatus(orderId, newStatus):
             output['message'] = "FORBIDDEN"
             output['status'] = False
             return jsonify(output), 403 
+        
+@orders.route('/orders/statusList')
+@jwt_required
+def getAllStatus():
+    output = defaultObject()
+    current_user = get_jwt_identity()
+    search_current_admin = mongo.db.admins.find_one({'email': current_user['email']})
+    if (search_current_admin):
+        output['data'] = getStatusList()
+        output['status'] = True
+        return jsonify(output),200
+    else:
+        output['status'] = False
+        output['message'] = "FORBIDDEN"
+        return jsonify(output), 400
