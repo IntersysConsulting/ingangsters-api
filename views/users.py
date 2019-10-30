@@ -62,10 +62,6 @@ def user_login():
 
                         updated_cart = mongo.db.carts.update_one({'user': ObjectId(search_user['_id'])}, {
                                                                  '$set': {'items': new_current_cart}})
-                        print("new data: ", new_items)
-                        print("current cart: ", current_cart)
-                        print("combination: ", new_current_cart)
-
                 output['status'] = True
                 output['data'] = search_user
                 return jsonify(output), 200
