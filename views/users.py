@@ -31,6 +31,37 @@ def user_login():
                     identity=search_user)
                 search_user['refresh'] = create_refresh_token(
                     identity=search_user)
+
+                # Inserts cart data to current.
+                user_cart = mongo.db.carts.find_one(
+                    {'user': ObjectId(search_user['_id'])})
+
+                if (user_cart):
+                    if (data['cart']):
+                        current_cart = user_cart['items']
+                        new_items = data['cart']
+                        new_current_cart = []
+                        for new_item in new_items:
+                            is_already_in_cart = False
+                            new_item['_id'] = ObjectId(new_item['_id'])
+                            searched_product = mongo.db.products.find_one(
+                                {'_id': ObjectId(new_item['_id'])})
+                            for item_in_cart in current_cart:
+                                if(item_in_cart['_id'] == new_item['_id']):
+                                    is_already_in_cart = True
+                                    new_total_quantity = item_in_cart['quantity'] + \
+                                        new_item['quantity']
+                                    if(new_total_quantity <= searched_product['stock']):
+                                        item_in_cart['quantity'] = new_total_quantity
+                                        new_current_cart.append(item_in_cart)
+
+                            if(not is_already_in_cart):
+                                if(new_item['quantity'] > searched_product['stock']):
+                                    new_item['quantity'] = searched_product['stock']
+                                new_current_cart.append(new_item)
+
+                        updated_cart = mongo.db.carts.update_one({'user': ObjectId(search_user['_id'])}, {
+                                                                 '$set': {'items': new_current_cart}})
                 output['status'] = True
                 output['data'] = search_user
                 return jsonify(output), 200
